@@ -13,13 +13,13 @@ const commonStyles = {
     height: '100%',
   };
 
-export const Robot = ({canvas}) => {
+export const Robot = ({map, robot}) => {
   const { height, width } = useWindowDimensions();
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', height: '48vh' }}>
         <Box sx={{ ...commonStyles, border: 1 }}>
             <Typography variant='subtitle1' align="center"> Robot </Typography>
-            <Button variant="outlined" onClick={() => moveAtoB(canvas, 0, height, width)}> Move </Button>
+            <Button variant="outlined" onClick={() => moveAtoB(map, robot, height, width)}> Move </Button>
         </Box>
     </Box>
   );
