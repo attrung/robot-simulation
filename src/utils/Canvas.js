@@ -1,7 +1,10 @@
 import { fabric} from 'fabric';
 import {store} from '../app/store';
 import {
-    toggleFridgeOpen
+    toggleFridgeOpen,
+    toggleTvOn,
+    toggleBellRang,
+    toggleSofaSeated,
 } from '../features/sensorSlice';
 
 export const initCanvas = (height, width) => {
@@ -40,6 +43,7 @@ export const initCanvas = (height, width) => {
     addSofa(canvas, width, height);
     addDoorBell(canvas, width, height);
     addChargingPad(canvas, width, height);
+    canvas.selection = false;
     return [canvas, robot];
 };
 
@@ -81,6 +85,9 @@ const addTV = (canvas, width, height) => {
             tv.scale(0.3).set('flipY', true);
             lockObject(tv);
             canvas.add(tv);
+            tv.on('mousedown', ()=>{
+                store.dispatch(toggleTvOn());
+            });
         },
         {
             left: width * 0.3,
@@ -96,6 +103,9 @@ const addSofa = (canvas, width, height) => {
             sofa.scale(0.5);
             lockObject(sofa);
             canvas.add(sofa);
+            sofa.on('mousedown', ()=>{
+                store.dispatch(toggleSofaSeated());
+            });
         },
         {
             left: width * 0.33,
@@ -128,7 +138,9 @@ const addDoorBell = (canvas, width, height) => {
             doorBell.scale(0.15);
             lockObject(doorBell);
             canvas.add(doorBell);
-            canvas.sendToBack(doorBell);
+            doorBell.on('mousedown', ()=>{
+                store.dispatch(toggleBellRang());
+            });
         },
         {
             left: width * 0.40,
