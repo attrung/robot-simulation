@@ -13,9 +13,9 @@ export const initCanvas = (height, width) => {
         width: width * 0.49,
     })
     const robot = new fabric.Triangle({ 
-        top: height*0.03, 
-        left: height*0.48, 
-        width: height * 0.045, 
+        top: height*0.02, 
+        left: width * 0.26, 
+        width: width * 0.023, 
         height: height*0.045, 
         fill: 'blue',
         selectable: false,
@@ -23,52 +23,52 @@ export const initCanvas = (height, width) => {
     lockObject(robot);
     // 4 outter wall
     addWall(canvas, 0, height * 0.1, height*1, 0);
-    addWall(canvas, 0.1 * width, 0.008*height, height*1, 270);
-    addWall(canvas, 0, 0.98*height, height*0.68, 270);
-    addWall(canvas, 0.486 * width, 0.008*height, height*0.85);
+    addWall(canvas, 0.1 * width, 0.007*height, width * 1, 270);
+    addWall(canvas, 0, 0.98*height, width*0.40, 270);
+    addWall(canvas, 0.487 * width, 0.004*height, height*0.85, 0);
     // Kitchen Wall
     addWall(canvas, 0.1 * width, 0, height*0.25, 0);
-    addWall(canvas, 0, height * 0.1, height*0.10, 270);
-    addWall(canvas, 0, height * 0.33, height*0.25, 270);
-    addWall(canvas, height*0.25, height * 0.32, height*0.1, 0);
-    addWall(canvas, height*0.25, height * 0.50, height * 0.1, 0);
+    addWall(canvas, 0, height * 0.1, width*0.10, 270);
+    addWall(canvas, 0, height * 0.33, width*0.13, 270);
+    addWall(canvas, width*0.13, height * 0.323, height*0.09, 0);
+    addWall(canvas, width*0.13, height * 0.507, height * 0.09, 0);
     // Bathroom walls
-    addWall(canvas, 0, height * 0.60, height*0.33, 270);
-    addWall(canvas, height*0.33, height * 0.59, height*0.1, 0);
-    addWall(canvas, height*0.33, height * 0.79, height*0.21, 0);
+    addWall(canvas, 0, height * 0.60, width*0.17, 270);
+    addWall(canvas, width*0.17, height * 0.593, height*0.1, 0);
+    addWall(canvas, width*0.17, height * 0.79, height*0.21, 0);
     // Office Walls
-    addWall(canvas, height*0.43, height * 0.79, height*0.21, 0);
-    addWall(canvas, height*0.43, height * 0.59, height*0.1, 0);
-    addWall(canvas, height*0.43, height * 0.60, height*0.25, 270);
+    addWall(canvas, width*0.22, height * 0.79, height*0.21, 0);
+    addWall(canvas, width*0.22, height * 0.59, height*0.1, 0);
+    addWall(canvas, width*0.22, height * 0.597, width*0.18, 270);
     // Bedroom Walls
-    addWall(canvas, height*0.68, height * 0.59, height*0.42, 0);
-    addWall(canvas, height*0.68, height * 0.86, height*0.25, 270);
-    addWall(canvas, height*0.63, height * 0.32, height*0.17, 0);
-    addWall(canvas, height*0.63, height * 0.32, height*0.26, 270);
+    addWall(canvas, width*0.40, height * 0.59, height*0.42, 0);
+    addWall(canvas, width*0.40, height * 0.86, width, 270);
+    addWall(canvas, width*0.33, height * 0.316, height*0.17, 0);
+    addWall(canvas, width*0.33, height * 0.32, width, 270);
     // Stairs
-    addObject(canvas, "https://i.imgur.com/LynnJ65l.png", height*0.43, height * 0.32, 0, 0.45, false);
+    addObject(canvas, "https://i.imgur.com/LynnJ65l.png", width * 0.24, height * 0.32, 0, width / 4000);
     // Bathroom objects
-    addObject(canvas, "https://i.imgur.com/YdxOssBl.png", height*0.28, height * 0.97, 180, 0.45, false);
-    addObject(canvas, "https://i.imgur.com/45kkpGW.png", height*0.02, height * 0.62, 0, 0.45, false);
+    addObject(canvas, "https://i.imgur.com/YdxOssBl.png", width*0.14, height * 0.97, 180, width / 4000);
+    addObject(canvas, "https://i.imgur.com/45kkpGW.png", width * 0.01, height * 0.62, 0, width / 4000);
     // Office objects
-    addObject(canvas, "https://i.imgur.com/vZOmH8O.png", height*0.65, height * 0.95, 180, 0.45, false);
-    addObject(canvas, "https://i.imgur.com/8l5BfWH.png", height*0.57, height * 0.83, 270, 0.45, false);
-    addObject(canvas, "https://i.imgur.com/ptLTBtB.png", height*0.61, height * 0.91, 180, 0.35, false);
+    addObject(canvas, "https://i.imgur.com/vZOmH8O.png", width * 0.36, height * 0.95, 180, width / 3000, false);
+    addObject(canvas, "https://i.imgur.com/8l5BfWH.png", width * 0.32, height * 0.80, 270, width / 4000, false);
+    addObject(canvas, "https://i.imgur.com/ptLTBtB.png", width * 0.33, height * 0.90, 180, width / 5000, false);
     // Bedroom objects
-    addObject(canvas, "https://i.imgur.com/k4trs4c.png", height*0.88, height * 0.47, 180, 0.45, false);
+    addObject(canvas, "https://i.imgur.com/k4trs4c.png", width*0.486, height * 0.47, 180, width / 3500, false);
     // Kitchen objects
-    addObject(canvas, "https://i.imgur.com/pmTI27i.png", height*0.10, height * 0.33, 0, 0.60, false);
+    addObject(canvas, "https://i.imgur.com/pmTI27i.png", width * 0.04, height * 0.33, 0, width / 2500, false);
     // Dining Area Objects
-    addObject(canvas, "https://i.imgur.com/16GHLQm.png", height*0.22, height * 0.03, 0, 0.8, false);
+    addObject(canvas, "https://i.imgur.com/16GHLQm.png", width*0.11, height * 0.03, 0, width / 2000, false);
     // House Entrance Door
-    addObject(canvas, "https://i.imgur.com/5FSeh4H.png", height*0.095, height * 0.09, 0, 0.4, false);
+    addObject(canvas, "https://i.imgur.com/5FSeh4H.png", width*0.05, height * 0.09, 0, width/4500, false);
     
-    addText(canvas, "Bathroom", height*0.12, height * 0.82, 0, 0.45);
-    addText(canvas, "Office", height*0.53, height * 0.65, 0, 0.45);
-    addText(canvas, "Bedroom", height*0.74, height * 0.65, 0, 0.45);
-    addText(canvas, "Kitchen", height*0.10, height * 0.45, 0, 0.45);
-    addText(canvas, "Dining Area", height*0.25, height * 0.22, 0, 0.45);
-    addText(canvas, "Living Room", height*0.68, height * 0.20, 0, 0.45);
+    addText(canvas, "Bathroom", width*0.06, height * 0.82, 0, 0.45);
+    addText(canvas, "Office", width * 0.30, height * 0.65, 0, 0.45);
+    addText(canvas, "Bedroom", width * 0.425, height * 0.65, 0, 0.45);
+    addText(canvas, "Kitchen", width*0.05, height * 0.45, 0, 0.45);
+    addText(canvas, "Dining Area", width*0.12, height * 0.22, 0, 0.45);
+    addText(canvas, "Living Room", width*0.37, height * 0.20, 0, 0.45);
     
     addFridge(canvas, width, height);
     addTV(canvas, width, height);
@@ -107,7 +107,7 @@ const addWall = (canvas, left, top, length, angle) => {
     canvas.add(wall);
 }
 
-const addObject = (canvas, URL, left, top, angle, scale, selectable) => {
+const addObject = (canvas, URL, left, top, angle, scale) => {
     fabric.Image.fromURL(
         URL, 
         obj => {
@@ -118,7 +118,7 @@ const addObject = (canvas, URL, left, top, angle, scale, selectable) => {
         {
             left: left,
             top: top,
-            selectable: selectable,
+            selectable: false,
             angle: angle,
         }
     )
@@ -140,7 +140,7 @@ const addFridge = (canvas, width, height) => {
     fabric.Image.fromURL(
         "https://i.imgur.com/G1IPld5.png", 
         fridge => {
-            fridge.scale(0.07);
+            fridge.scale(width / 25000);
             lockObject(fridge);
             canvas.add(fridge);
             fridge.on('mousedown', ()=>{
@@ -148,8 +148,8 @@ const addFridge = (canvas, width, height) => {
             });
         },
         {
-            left: 0.01*height,
-            top: height*0.47,
+            left: 0.01*width,
+            top: height*0.48,
         }
     )
 }
@@ -158,7 +158,7 @@ const addTV = (canvas, width, height) => {
     fabric.Image.fromURL(
         "https://i.imgur.com/2knzd5I.png",
         tv => {
-            tv.scale(0.2);
+            tv.scale(width / 6000);
             lockObject(tv);
             canvas.add(tv);
             tv.on('mousedown', ()=>{
@@ -166,8 +166,8 @@ const addTV = (canvas, width, height) => {
             });
         },
         {
-            left: height * 0.655,
-            top: height * 0.248,
+            left: width * 0.34,
+            top: height * 0.225,
         }
     )
 }
@@ -176,7 +176,7 @@ const addSofa = (canvas, width, height) => {
     fabric.Image.fromURL(
         "https://i.imgur.com/YWdDNTL.png",
         sofa => {
-            sofa.scale(0.17);
+            sofa.scale(width/7000);
             lockObject(sofa);
             canvas.add(sofa);
             sofa.on('mousedown', ()=>{
@@ -184,7 +184,7 @@ const addSofa = (canvas, width, height) => {
             });
         },
         {
-            left: height*0.64,
+            left: width * 0.325,
             top: height * 0.01,
         }
     )
@@ -194,7 +194,7 @@ const addChargingPad = (canvas, width, height) => {
     fabric.Image.fromURL(
         "https://media.istockphoto.com/id/1320452985/vector/wireless-charging-icon-vector-artificial-intelligence-collection-for-your-web-design-logo-ui.jpg?s=612x612&w=0&k=20&c=RNvGfzp7jI_0pqp6PtnterE3-euQvNN71a5Fj32g9kU=",
         chargingPad => {
-            chargingPad.scale(0.13);
+            chargingPad.scale(width / 15000);
             lockObject(chargingPad);
             canvas.add(chargingPad);
             canvas.sendToBack(chargingPad);
@@ -211,7 +211,7 @@ const addDoorBell = (canvas, width, height) => {
     fabric.Image.fromURL(
         "https://i.imgur.com/rj0gySp.png",
         doorBell => {
-            doorBell.scale(0.3);
+            doorBell.scale(width / 6000);
             lockObject(doorBell);
             canvas.add(doorBell);
             doorBell.on('mousedown', ()=>{
@@ -219,7 +219,7 @@ const addDoorBell = (canvas, width, height) => {
             });
         },
         {
-            left: height*0.01,
+            left: width*0.005,
             top: height*0.1,
         }
     )
