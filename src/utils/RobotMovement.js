@@ -10,12 +10,12 @@ export function moveAtoB(canvas, robot, height, width){
         duration: 3000,
         onChange: canvas.renderAll.bind(canvas),
         onComplete: () => {
-            robot.animate('left', width * 0.38, {
-                duration: 3000,
+            robot.animate('left', width * 0.45, {
+                duration: 4000,
                 onChange: canvas.renderAll.bind(canvas),
                 onComplete: () => {
-                    robot.animate('top', height * 0.88, {
-                        duration: 3000,
+                    robot.animate('top', height * 0.78, {
+                        duration: 2000,
                         onChange: canvas.renderAll.bind(canvas),
                         onComplete: () => {
                             moved = false;
