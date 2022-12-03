@@ -7,20 +7,34 @@ import Behavior from './components/Behavior';
 import {Robot} from './components/Robot';
 import {Variables} from './components/Variables';
 import './App.css';
-import useWindowDimensions from './utils/UseWindowDimension';
+import {getWindowDimensions} from './utils/UseWindowDimension';
 import {initCanvas} from './utils/Canvas';
 import { selectShowMovementMap } from './features/robotSlice';
 
 function App() {
-  const { height, width } = useWindowDimensions();
+  const { height, width } = getWindowDimensions();
   const showMovementMap = useSelector(selectShowMovementMap);
   const [map, setMap] = useState('');
   const [robot, setRobot] = useState('');
+  const [movementMap, setMovementMap] = useState('');
   useEffect(() => {
-    const [initMap, initRobot] = initCanvas(height, width, showMovementMap);
+    const [initMap, initRobot, initMoveMap] = initCanvas(height, width);
     setMap(initMap);
     setRobot(initRobot);
-  }, [height, width, showMovementMap]);
+    setMovementMap(initMoveMap);
+  }, [width, height]);
+
+  useEffect(() => {
+    if (movementMap === ''){
+        return
+    }
+    if (!showMovementMap){
+        map.remove(movementMap);
+    } else {
+        map.add(movementMap);
+        map.sendToBack(movementMap);
+    }
+  }, [map, movementMap, showMovementMap])
 
   return (
     <Grid container spacing={1} style={{height: '100%'}}>

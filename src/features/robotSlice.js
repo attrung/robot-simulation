@@ -56,7 +56,6 @@ export const robotSlice = createSlice({
       },
       toggleShowMovementMap: (state) => {
         state.showMovementMap = !state.showMovementMap;
-        console.log(state.showMovementMap);
       }
     },
   });

@@ -9,7 +9,7 @@ import {
 } from '../features/sensorSlice';
 import { generateMovementMap } from './RobotMovement';
 
-export const initCanvas = (height, width, showMovementMap) => {
+export const initCanvas = (height, width) => {
     const [movableCoordinates, movableEdges] = generateMovementMap(height, width);
     store.dispatch(setMovableLocation({
         movableCoordinates: movableCoordinates, 
@@ -88,18 +88,24 @@ export const initCanvas = (height, width, showMovementMap) => {
     addDoorBell(canvas, width, height);
     addChargingPad(canvas, width, height);
 
-    if (showMovementMap){
-        // movement nodes
-        const radius = height/90;
-        movableCoordinates.forEach((coordinate) => {
-            addNode(canvas, coordinate[0], coordinate[1], radius);
-        })
-        movableEdges.forEach(coordinates => {
-            addLine(canvas, coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1], radius);
-        })
-    }
+    var movementMap = [];
+    // movement nodes
+    const radius = height/90;
+    movableCoordinates.forEach((coordinate) => {
+        const node = createNode(coordinate[0], coordinate[1], radius);
+        movementMap.push(node);
+    })
+    movableEdges.forEach(coordinates => {
+        const line = createLine(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1], radius);
+        movementMap.push(line);
+    })
+    const moveMap = new fabric.Group(movementMap, {
+        selectable: false,
+    })
+    canvas.add(moveMap);
+    canvas.sendToBack(moveMap);
     canvas.selection = false;
-    return [canvas, robot];
+    return [canvas, robot, moveMap];
 };
 
 const lockObject = (object) => {
@@ -114,7 +120,7 @@ const lockObject = (object) => {
     object.lockUniScaling = true;
 }
 
-const addNode = (canvas, left, top, radius) => {
+const createNode = (left, top, radius) => {
     const node = new fabric.Circle({
         left: left,
         top: top,
@@ -123,11 +129,10 @@ const addNode = (canvas, left, top, radius) => {
         selectable: false,
     });
     lockObject(node);
-    canvas.add(node);
-    canvas.sendToBack(node);
+    return node;
 }
 
-const addLine = (canvas, start_x, start_y, end_x, end_y, radius) => {
+const createLine = (start_x, start_y, end_x, end_y, radius) => {
     const line = new fabric.Line(
         [
             start_x + radius, 
@@ -140,8 +145,7 @@ const addLine = (canvas, start_x, start_y, end_x, end_y, radius) => {
         selectable: false,
     });
     lockObject(line);
-    canvas.add(line);
-    canvas.sendToBack(line);
+    return line;
 }
 
 const addWall = (canvas, left, top, length, angle) => {
