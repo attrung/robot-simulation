@@ -1,13 +1,20 @@
 import { fabric} from 'fabric';
 import {store} from '../app/store';
+import { setMovableLocation, setRobotCoordinate } from '../features/robotSlice';
 import {
     toggleFridgeOpen,
     toggleTvOn,
     toggleBellRang,
     toggleSofaSeated,
 } from '../features/sensorSlice';
+import { generateMovementMap } from './RobotMovement';
 
-export const initCanvas = (height, width) => {
+export const initCanvas = (height, width, showMovementMap) => {
+    const [movableCoordinates, movableEdges] = generateMovementMap(height, width);
+    store.dispatch(setMovableLocation({
+        movableCoordinates: movableCoordinates, 
+        movableEdges: movableEdges,
+    }));
     const canvas = new fabric.Canvas('mainMap', {
         height: height*0.98,
         width: width * 0.49,
@@ -20,7 +27,10 @@ export const initCanvas = (height, width) => {
         fill: 'blue',
         selectable: false,
     })
+    store.dispatch(setRobotCoordinate({x: width * 0.26, y: height*0.02}));
     lockObject(robot);
+    canvas.add(robot);
+
     // 4 outter wall
     addWall(canvas, 0, height * 0.1, height*1, 0);
     addWall(canvas, 0.1 * width, 0.007*height, width * 1, 270);
@@ -55,31 +65,42 @@ export const initCanvas = (height, width) => {
     addObject(canvas, "https://i.imgur.com/8l5BfWH.png", width * 0.32, height * 0.80, 270, width / 4000, false);
     addObject(canvas, "https://i.imgur.com/ptLTBtB.png", width * 0.33, height * 0.90, 180, width / 5000, false);
     // Bedroom objects
-    addObject(canvas, "https://i.imgur.com/k4trs4c.png", width*0.486, height * 0.47, 180, width / 3500, false);
+    addObject(canvas, "https://i.imgur.com/k4trs4c.png", width*0.486, height * 0.46, 180, width / 3500, false);
     // Kitchen objects
     addObject(canvas, "https://i.imgur.com/pmTI27i.png", width * 0.04, height * 0.33, 0, width / 2500, false);
     // Dining Area Objects
     addObject(canvas, "https://i.imgur.com/16GHLQm.png", width*0.11, height * 0.03, 0, width / 2000, false);
     // House Entrance Door
     addObject(canvas, "https://i.imgur.com/5FSeh4H.png", width*0.05, height * 0.09, 0, width/4500, false);
-    
+    // Texts
     addText(canvas, "Bathroom", width*0.06, height * 0.82, 0, 0.45);
     addText(canvas, "Office", width * 0.30, height * 0.65, 0, 0.45);
     addText(canvas, "Bedroom", width * 0.425, height * 0.65, 0, 0.45);
     addText(canvas, "Kitchen", width*0.05, height * 0.45, 0, 0.45);
     addText(canvas, "Dining Area", width*0.12, height * 0.22, 0, 0.45);
     addText(canvas, "Living Room", width*0.37, height * 0.20, 0, 0.45);
+    addText(canvas, "Hall", width*0.04, height * 0.23, 0, 0.45);
     
+    // Sensors
     addFridge(canvas, width, height);
     addTV(canvas, width, height);
     addSofa(canvas, width, height);
     addDoorBell(canvas, width, height);
     addChargingPad(canvas, width, height);
-    canvas.add(robot);
+
+    if (showMovementMap){
+        // movement nodes
+        const radius = height/90;
+        movableCoordinates.forEach((coordinate) => {
+            addNode(canvas, coordinate[0], coordinate[1], radius);
+        })
+        movableEdges.forEach(coordinates => {
+            addLine(canvas, coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1], radius);
+        })
+    }
     canvas.selection = false;
     return [canvas, robot];
 };
-
 
 const lockObject = (object) => {
     object.lockMovementX = true;
@@ -91,6 +112,36 @@ const lockObject = (object) => {
     object.lockSkewingX = true;
     object.lockSkewingY = true;
     object.lockUniScaling = true;
+}
+
+const addNode = (canvas, left, top, radius) => {
+    const node = new fabric.Circle({
+        left: left,
+        top: top,
+        fill: 'green',
+        radius: radius,
+        selectable: false,
+    });
+    lockObject(node);
+    canvas.add(node);
+    canvas.sendToBack(node);
+}
+
+const addLine = (canvas, start_x, start_y, end_x, end_y, radius) => {
+    const line = new fabric.Line(
+        [
+            start_x + radius, 
+            start_y + radius, 
+            end_x + radius,
+            end_y + radius
+        ], {
+        stroke: 'green',
+        strokeWidth: 2,
+        selectable: false,
+    });
+    lockObject(line);
+    canvas.add(line);
+    canvas.sendToBack(line);
 }
 
 const addWall = (canvas, left, top, length, angle) => {
@@ -166,17 +217,17 @@ const addTV = (canvas, width, height) => {
             });
         },
         {
-            left: width * 0.34,
-            top: height * 0.225,
+            left: width * 0.35,
+            top: height * 0.23,
         }
     )
 }
 
 const addSofa = (canvas, width, height) => {
     fabric.Image.fromURL(
-        "https://i.imgur.com/YWdDNTL.png",
+        "https://i.imgur.com/V0CedRC.png",
         sofa => {
-            sofa.scale(width/7000);
+            sofa.scale(width/12000);
             lockObject(sofa);
             canvas.add(sofa);
             sofa.on('mousedown', ()=>{
@@ -184,8 +235,9 @@ const addSofa = (canvas, width, height) => {
             });
         },
         {
-            left: width * 0.325,
+            left: width * 0.475,
             top: height * 0.01,
+            angle: 90,
         }
     )
 }

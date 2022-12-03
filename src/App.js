@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 import Grid from '@mui/material/Grid';
 import {Map} from './components/Map';
 import Controls from './components/Controls';
@@ -6,18 +7,20 @@ import Behavior from './components/Behavior';
 import {Robot} from './components/Robot';
 import {Variables} from './components/Variables';
 import './App.css';
-import useWindowDimensions from './utils/UseWindowDimension'
-import {initCanvas} from './utils/Canvas'
+import useWindowDimensions from './utils/UseWindowDimension';
+import {initCanvas} from './utils/Canvas';
+import { selectShowMovementMap } from './features/robotSlice';
 
 function App() {
   const { height, width } = useWindowDimensions();
+  const showMovementMap = useSelector(selectShowMovementMap);
   const [map, setMap] = useState('');
   const [robot, setRobot] = useState('');
   useEffect(() => {
-    const [initMap, initRobot] = initCanvas(height, width);
+    const [initMap, initRobot] = initCanvas(height, width, showMovementMap);
     setMap(initMap);
     setRobot(initRobot);
-  }, [height, width]);
+  }, [height, width, showMovementMap]);
 
   return (
     <Grid container spacing={1} style={{height: '100%'}}>
