@@ -199,7 +199,7 @@ const addFridge = (canvas, width, height) => {
             lockObject(fridge);
             canvas.add(fridge);
             fridge.on('mousedown', ()=>{
-                store.dispatch(toggleFridgeOpen());
+                store.dispatch(toggleFridgeOpen({time: store.getState().time.currentTime}));
             });
         },
         {
@@ -217,7 +217,7 @@ const addTV = (canvas, width, height) => {
             lockObject(tv);
             canvas.add(tv);
             tv.on('mousedown', ()=>{
-                store.dispatch(toggleTvOn());
+                store.dispatch(toggleTvOn({time: store.getState().time.currentTime}));
             });
         },
         {
@@ -235,7 +235,7 @@ const addSofa = (canvas, width, height) => {
             lockObject(sofa);
             canvas.add(sofa);
             sofa.on('mousedown', ()=>{
-                store.dispatch(toggleSofaSeated());
+                store.dispatch(toggleSofaSeated({time: store.getState().time.currentTime}));
             });
         },
         {
@@ -271,7 +271,7 @@ const addDoorBell = (canvas, width, height) => {
             lockObject(doorBell);
             canvas.add(doorBell);
             doorBell.on('mousedown', ()=>{
-                store.dispatch(toggleBellRang());
+                store.dispatch(toggleBellRang({time: store.getState().time.currentTime}));
             });
         },
         {

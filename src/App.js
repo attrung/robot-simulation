@@ -10,6 +10,12 @@ import './App.css';
 import {getWindowDimensions} from './utils/UseWindowDimension';
 import {initCanvas} from './utils/Canvas';
 import { selectShowMovementMap } from './features/robotSlice';
+import { store } from './app/store';
+import { incrementTime } from './features/timeSlice';
+
+setInterval(function() {
+    store.dispatch(incrementTime());
+}, 100)
 
 function App() {
   const { height, width } = getWindowDimensions();

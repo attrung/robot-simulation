@@ -168,7 +168,7 @@ function animateMovement(canvas, robot, path){
         'left': node[0] - 8,
         },
         {
-        duration: dist * 20,
+        duration: dist * 50 / (Math.max(store.getState().time.multiplier, 1)),
         onChange: canvas.renderAll.bind(canvas),
         easing: fabric.util.ease.easeOutCubic(),
         onComplete: () => {
