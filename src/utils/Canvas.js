@@ -1,6 +1,6 @@
 import { fabric} from 'fabric';
 import {store} from '../app/store';
-import { setMovableLocation, setPersonCoordinate, setRobotCoordinate } from '../features/robotSlice';
+import { setMovableLocation, setPersonCoordinate, setRobotCoordinate } from '../features/movementSlice';
 import {
     toggleFridgeOpen,
     toggleTvOn,
@@ -34,7 +34,7 @@ export const initCanvas = (height, width) => {
     canvas.add(robot);
 
     // Person
-    const person = new fabric.Image.fromURL(
+    fabric.Image.fromURL(
         "https://i.imgur.com/YqcGoiD.png", 
         person => {
             person.scale(width / 15000);

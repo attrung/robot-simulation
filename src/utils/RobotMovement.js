@@ -1,6 +1,6 @@
 import { fabric} from 'fabric';
 import {store} from '../app/store';
-import {setRobotCoordinate, setIsMoving, setHallCoordinate, setDiningAreaCoordinate, setTvCoordinate, setSofaCoordinate, setKitchenCoordinate, setBathroomCoordinate, setOfficeCoordinate, setBedroomCoordinate } from '../features/robotSlice';
+import {setRobotCoordinate, setIsMoving, setHallCoordinate, setDiningAreaCoordinate, setTvCoordinate, setSofaCoordinate, setKitchenCoordinate, setBathroomCoordinate, setOfficeCoordinate, setBedroomCoordinate } from '../features/movementSlice';
 
 export function generateMovementMap(height, width) {
     // hall

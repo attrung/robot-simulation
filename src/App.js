@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import Grid from '@mui/material/Grid';
 import {Map} from './components/Map';
-import Controls from './components/Controls';
+import {Controls} from './components/Controls';
 import Behavior from './components/Behavior';
 import {Robot} from './components/Robot';
 import {Variables} from './components/Variables';
 import './App.css';
 import {getWindowDimensions} from './utils/UseWindowDimension';
 import {initCanvas} from './utils/Canvas';
-import { selectShowMovementMap } from './features/robotSlice';
+import { selectShowMovementMap } from './features/movementSlice';
 import { store } from './app/store';
 import { incrementTime } from './features/timeSlice';
 
@@ -23,7 +23,6 @@ function App() {
   const [map, setMap] = useState('');
   const [robot, setRobot] = useState('');
   const [movementMap, setMovementMap] = useState('');
-  const [person, setPerson] = useState('');
   useEffect(() => {
     const [initMap, initRobot, initMoveMap] = initCanvas(height, width);
     setMap(initMap);
@@ -54,7 +53,7 @@ function App() {
                     <Robot map={map} robot={robot}/>
                 </Grid>
                 <Grid item xs={6}> 
-                    <Controls />
+                    <Controls map={map} robot={robot}/>
                 </Grid>
                 <Grid item xs={6}> 
                     <Variables />

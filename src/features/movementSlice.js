@@ -17,7 +17,7 @@ const initialState = {
     personCoordinate: null,
 };
 
-export const robotSlice = createSlice({
+export const movementSlice = createSlice({
     name: 'counter',
     initialState,
     reducers: {
@@ -93,6 +93,6 @@ export const robotSlice = createSlice({
     setTvCoordinate,
     setSofaCoordinate,
     toggleShowMovementMap,
-  } = robotSlice.actions;
+  } = movementSlice.actions;
 
-  export default robotSlice.reducer;
+  export default movementSlice.reducer;

@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
-import robotReducer from '../features/robotSlice';
+import movementReducer from '../features/movementSlice';
 import sensorReducer from '../features/sensorSlice';
 import timeReducer from '../features/timeSlice';
+import robotVariableReducer from '../features/robotVariableSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    robot: robotReducer,
+    robot: movementReducer,
     sensor: sensorReducer,
     time: timeReducer,
+    robotVariable: robotVariableReducer,
   },
 });
