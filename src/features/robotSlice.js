@@ -14,6 +14,7 @@ const initialState = {
     diningAreaCoordinate: null,
     tvCoordinate: null,
     sofaCoordinate: null,
+    personCoordinate: null,
 };
 
 export const robotSlice = createSlice({
@@ -22,7 +23,10 @@ export const robotSlice = createSlice({
     reducers: {
       setRobotCoordinate: (state, action) => {
         state.currentCoordinate = [action.payload.x, action.payload.y];
-      }, 
+      },
+      setPersonCoordinate: (state, action) => {
+        state.personCoordinate = [action.payload.x, action.payload.y];
+      },
       setMovableLocation: (state, action) => {
         state.movableCoordinates = action.payload.movableCoordinates;
         state.movableEdges = action.payload.movableEdges;
@@ -73,9 +77,11 @@ export const robotSlice = createSlice({
     "tv": state.robot.tvCoordinate,
     "sofa": state.robot.sofaCoordinate
   }};
+  export const selectPersonCoordinate = (state) => state.robot.personCoordinate;
 
   export const {
     setRobotCoordinate, 
+    setPersonCoordinate,
     setMovableLocation, 
     setIsMoving,
     setKitchenCoordinate,

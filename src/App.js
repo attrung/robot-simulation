@@ -23,6 +23,7 @@ function App() {
   const [map, setMap] = useState('');
   const [robot, setRobot] = useState('');
   const [movementMap, setMovementMap] = useState('');
+  const [person, setPerson] = useState('');
   useEffect(() => {
     const [initMap, initRobot, initMoveMap] = initCanvas(height, width);
     setMap(initMap);

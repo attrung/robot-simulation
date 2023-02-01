@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { moveRobot } from '../utils/RobotMovement';
-import {selectIsMoving, selectMovableCoordinate, selectRoomCoordinate, toggleShowMovementMap} from '../features/robotSlice';
+import {selectIsMoving, selectMovableCoordinate, selectPersonCoordinate, selectRoomCoordinate, toggleShowMovementMap} from '../features/robotSlice';
 import { selectMultiplier, selectTimeInString, setMultiplier } from '../features/timeSlice';
 import TextField from '@mui/material/TextField';
 
@@ -24,11 +24,28 @@ export const Robot = ({map, robot}) => {
   const destinationCoordinates = useSelector(selectRoomCoordinate);
   const timeInString = useSelector(selectTimeInString);
   const multiplier = useSelector(selectMultiplier);
+  const personCoordinate = useSelector(selectPersonCoordinate);
   const dispatch = useDispatch();
   const moveRobotRandom = () => {
     if (!isMoving){
       const randomIndex = Math.floor(Math.random() * movableCoordinates.length);
       const node = movableCoordinates[randomIndex];
+      moveRobot(map, robot, node[0], node[1]);
+    }
+  }
+
+  const moveRobotPerson = () => {
+    if (!isMoving){
+      var moveIndex = 0;
+      var minDist = Infinity;
+      for (let i = 0; i < movableCoordinates.length; i++) {
+        const distToPerson = Math.pow(movableCoordinates[i][0] - personCoordinate[0], 2) + Math.pow(movableCoordinates[i][1] - personCoordinate[1], 2)
+        if (distToPerson < minDist){
+          minDist = distToPerson;
+          moveIndex = i;
+        }
+      }
+      const node = movableCoordinates[moveIndex];
       moveRobot(map, robot, node[0], node[1]);
     }
   }
@@ -72,6 +89,9 @@ export const Robot = ({map, robot}) => {
               <Grid container spacing={2}>
                 <Grid item>
                   <Button variant="outlined" size='small' onClick={moveRobotRandom}> Move Random </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" size='small' onClick={moveRobotPerson}> Move To Person </Button>
                 </Grid>
                 {/* {Object.keys(destinationCoordinates).map((room) => 
                   <Grid item key={room}> 

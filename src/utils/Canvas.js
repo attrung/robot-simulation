@@ -1,6 +1,6 @@
 import { fabric} from 'fabric';
 import {store} from '../app/store';
-import { setMovableLocation, setRobotCoordinate } from '../features/robotSlice';
+import { setMovableLocation, setPersonCoordinate, setRobotCoordinate } from '../features/robotSlice';
 import {
     toggleFridgeOpen,
     toggleTvOn,
@@ -19,6 +19,8 @@ export const initCanvas = (height, width) => {
         height: height*0.98,
         width: width * 0.49,
     })
+
+    // Robot
     const robot = new fabric.Triangle({ 
         top: height*0.02, 
         left: width * 0.26, 
@@ -30,6 +32,27 @@ export const initCanvas = (height, width) => {
     store.dispatch(setRobotCoordinate({x: width * 0.26, y: height*0.02}));
     lockObject(robot);
     canvas.add(robot);
+
+    // Person
+    const person = new fabric.Image.fromURL(
+        "https://i.imgur.com/YqcGoiD.png", 
+        person => {
+            person.scale(width / 15000);
+            canvas.add(person);
+            lockObject(person);
+            person.lockMovementX = false;
+            person.lockMovementY = false;
+            person.on('mouseup', (e)=>{
+                const ptr = canvas.getPointer(e);
+                store.dispatch(setPersonCoordinate({x: ptr.x, y: ptr.y}));
+            });
+            store.dispatch(setPersonCoordinate({x: 0.2*width, y: height*0.38}));
+        },
+        {
+            left: 0.2*width,
+            top: height*0.38,
+        }
+    )
 
     // 4 outter wall
     addWall(canvas, 0, height * 0.1, height*1, 0);
