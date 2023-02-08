@@ -64,20 +64,20 @@ export const movementSlice = createSlice({
     },
   });
 
-  export const selectMovableCoordinate = (state) => state.robot.movableCoordinates;
-  export const selectIsMoving = (state) => state.robot.isMoving;
-  export const selectShowMovementMap = (state) => state.robot.showMovementMap;
+  export const selectMovableCoordinate = (state) => state.movement.movableCoordinates;
+  export const selectIsMoving = (state) => state.movement.isMoving;
+  export const selectShowMovementMap = (state) => state.movement.showMovementMap;
   export const selectRoomCoordinate = (state) => {return {
-    "kitchen": state.robot.kitchenCoordinate,
-    "bedroom": state.robot.bedroomCoordinate,
-    "office": state.robot.officeCoordinate,
-    "bathroom": state.robot.bathroomCoordinate,
-    "hall": state.robot.hallCoordinate,
-    "diningArea": state.robot.diningAreaCoordinate,
-    "tv": state.robot.tvCoordinate,
-    "sofa": state.robot.sofaCoordinate
+    "kitchen": state.movement.kitchenCoordinate,
+    "bedroom": state.movement.bedroomCoordinate,
+    "office": state.movement.officeCoordinate,
+    "bathroom": state.movement.bathroomCoordinate,
+    "hall": state.movement.hallCoordinate,
+    "diningArea": state.movement.diningAreaCoordinate,
+    "tv": state.movement.tvCoordinate,
+    "sofa": state.movement.sofaCoordinate
   }};
-  export const selectPersonCoordinate = (state) => state.robot.personCoordinate;
+  export const selectPersonCoordinate = (state) => state.movement.personCoordinate;
 
   export const {
     setRobotCoordinate, 

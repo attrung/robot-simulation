@@ -8,7 +8,7 @@ import robotUIReducer from '../features/robotUISlice';
 
 export const store = configureStore({
   reducer: {
-    robot: movementReducer,
+    movement: movementReducer,
     sensor: sensorReducer,
     time: timeReducer,
     robotVariable: robotVariableReducer,

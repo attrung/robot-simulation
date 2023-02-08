@@ -23,9 +23,9 @@ export const robotUISlice = createSlice({
         },
         setSpeakText: (state, action) => {
             state.speakText = action.payload.value;
-            setTimeout(() => {
-                state.speakText = null;
-            }, 5000);
+        },
+        clearSpeakText: (state, action) => {
+            state.speakText = null;
         },
         setGUI1: (state, action) => {
             state.GUI1 = action.payload.value;
@@ -50,6 +50,6 @@ export const selectGUI1 = (state) => state.robotUI.GUI1;
 export const selectGUI2 = (state) => state.robotUI.GUI2;
 export const selectGUI3 = (state) => state.robotUI.GUI3;
 
-export const {setColourYellow, setColourWhite, clearColour, setSpeakText, setGUI1, setGUI2, setGUI3, clearGUI} = robotUISlice.actions;
+export const {setColourYellow, setColourWhite, clearColour, setSpeakText, clearSpeakText, setGUI1, setGUI2, setGUI3, clearGUI} = robotUISlice.actions;
 
 export default robotUISlice.reducer;

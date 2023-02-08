@@ -12,10 +12,7 @@ import {initCanvas} from './utils/Canvas';
 import { selectShowMovementMap } from './features/movementSlice';
 import { store } from './app/store';
 import { incrementTime } from './features/timeSlice';
-
-setInterval(function() {
-    store.dispatch(incrementTime());
-}, 100)
+import {runScheduler} from './utils/Scheduler';
 
 function App() {
   const { height, width } = getWindowDimensions();
@@ -23,6 +20,7 @@ function App() {
   const [map, setMap] = useState('');
   const [robot, setRobot] = useState('');
   const [movementMap, setMovementMap] = useState('');
+
   useEffect(() => {
     const [initMap, initRobot, initMoveMap] = initCanvas(height, width);
     setMap(initMap);
@@ -41,6 +39,13 @@ function App() {
         map.sendToBack(movementMap);
     }
   }, [map, movementMap, showMovementMap])
+
+  useEffect(() => {
+    const interval = setInterval(function() {
+        store.dispatch(incrementTime());
+        runScheduler(map, robot);
+    }, 100)
+  })
 
   return (
     <Grid container spacing={1} style={{height: '100%'}}>

@@ -101,7 +101,7 @@ export function generateMovementMap(height, width) {
 }
 
 function getClosestCoordinate(x, y){
-    const movableCoordinates = store.getState().robot.movableCoordinates;
+    const movableCoordinates = store.getState().movement.movableCoordinates;
     var answer = null;
     var minDist = Number.POSITIVE_INFINITY;
     movableCoordinates.forEach(element => {
@@ -115,8 +115,8 @@ function getClosestCoordinate(x, y){
 }
 
 function getPath(x1, y1, x2, y2) {
-    const movableCoordinates = store.getState().robot.movableCoordinates;
-    const movableEdges = store.getState().robot.movableEdges;
+    const movableCoordinates = store.getState().movement.movableCoordinates;
+    const movableEdges = store.getState().movement.movableEdges;
     const edgeMap = new Map();
     var start_node = getClosestCoordinate(x1, y1);
     var end_node = getClosestCoordinate(x2, y2);
@@ -149,7 +149,7 @@ function getPath(x1, y1, x2, y2) {
 }
 
 export function moveRobot(canvas, robot, x2, y2) {
-    const robotCoordinate = store.getState().robot.currentCoordinate;
+    const robotCoordinate = store.getState().movement.currentCoordinate;
     const path = getPath(robotCoordinate[0], robotCoordinate[1], x2, y2);
     animateMovement(canvas, robot, path);
 }
@@ -160,7 +160,7 @@ function animateMovement(canvas, robot, path){
         store.dispatch(setIsMoving({isMoving: false}));
         return;
     }
-    const robotCoordinate = store.getState().robot.currentCoordinate;
+    const robotCoordinate = store.getState().movement.currentCoordinate;
     const node = path.shift();
     const dist = Math.sqrt(Math.pow(robotCoordinate[0] - node[0], 2) + Math.pow(robotCoordinate[1] - node[1], 2));
     robot.animate({
@@ -176,4 +176,22 @@ function animateMovement(canvas, robot, path){
             animateMovement(canvas, robot, path);
         },
     })
+}
+
+export const moveRobotRoom = (map, robot, room) => {
+    const isMoving = store.getState().movement.isMoving;
+    const destinationCoordinates = {
+        "kitchen": store.getState().movement.kitchenCoordinate,
+        "bedroom": store.getState().movement.bedroomCoordinate,
+        "office": store.getState().movement.officeCoordinate,
+        "bathroom": store.getState().movement.bathroomCoordinate,
+        "hall": store.getState().movement.hallCoordinate,
+        "diningArea": store.getState().movement.diningAreaCoordinate,
+        "tv": store.getState().movement.tvCoordinate,
+        "sofa": store.getState().movement.sofaCoordinate
+    }
+    if (!isMoving){
+      const node = destinationCoordinates[room];
+      moveRobot(map, robot, node[0], node[1]);
+    }
 }
