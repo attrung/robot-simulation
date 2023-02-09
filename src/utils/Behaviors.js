@@ -1,7 +1,7 @@
-import {store} from '../app/store';
-import {setColourWhite, setColourYellow, setSpeakText, clearSpeakText} from '../features/robotUISlice';
-import {setGOALgoToCharger, setGOALgoToTable, setGOALgoToSofa, setGOALfridgeUserAlerted} from '../features/goalVariableSlice';
-import {moveRobotRoom} from '../utils/RobotMovement';
+import { store } from '../app/store';
+import { setColourWhite, setColourYellow, setSpeakText, clearSpeakText } from '../features/robotUISlice';
+import { setGOALgoToCharger, setGOALgoToTable, setGOALgoToSofa, setGOALfridgeUserAlerted } from '../features/goalVariableSlice';
+import { moveRobotRoom } from '../utils/RobotMovement';
 
 export const AlertFridgeDoor = (map, robot) => {
     store.dispatch(setColourYellow());
@@ -36,4 +36,11 @@ export const AlertFridgeDoor = (map, robot) => {
         }
     }
     afterMove();
+}
+
+export const RemindFridgeDoor = () => {
+    store.dispatch(setGOALfridgeUserAlerted({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
 }
