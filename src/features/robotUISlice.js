@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     lightColour: null,
     speakText: null,
+    action: null,
+    torso: null,
     GUI1: null,
     GUI2: null,
     GUI3: null,
@@ -21,11 +23,23 @@ export const robotUISlice = createSlice({
         clearColour: (state) => {
             state.lightColour = null;
         },
+        setTorso: (state, action) => {
+            state.torso = action.payload.value;
+        },
+        clearTorso: (state) => {
+            state.torso = null;
+        },
         setSpeakText: (state, action) => {
             state.speakText = action.payload.value;
         },
-        clearSpeakText: (state, action) => {
+        clearSpeakText: (state) => {
             state.speakText = null;
+        },
+        setAction: (state, action) => {
+            state.action = action.payload.value;
+        },
+        clearAction: (state) => {
+            state.action = null;
         },
         setGUI1: (state, action) => {
             state.GUI1 = action.payload.value;
@@ -42,14 +56,16 @@ export const robotUISlice = createSlice({
             state.GUI3 = null;
         }
     },
-  });
+});
 
 export const selectLightColour = (state) => state.robotUI.lightColour;
 export const selectSpeakText = (state) => state.robotUI.speakText;
+export const selectAction = (state) => state.robotUI.action;
+export const selectTorso = (state) => state.robotUI.torso;
 export const selectGUI1 = (state) => state.robotUI.GUI1;
 export const selectGUI2 = (state) => state.robotUI.GUI2;
 export const selectGUI3 = (state) => state.robotUI.GUI3;
 
-export const {setColourYellow, setColourWhite, clearColour, setSpeakText, clearSpeakText, setGUI1, setGUI2, setGUI3, clearGUI} = robotUISlice.actions;
+export const { setColourYellow, setColourWhite, clearColour, setTorso, clearTorso, setSpeakText, clearSpeakText, setAction, clearAction, setGUI1, setGUI2, setGUI3, clearGUI } = robotUISlice.actions;
 
 export default robotUISlice.reducer;

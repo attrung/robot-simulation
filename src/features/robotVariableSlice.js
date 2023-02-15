@@ -11,6 +11,8 @@ const initialState = {
     trayIsLoweredOnTime: null,
     medicineDue5PMOnTime: null,
     medicineReminder5PMOnTime: null,
+    uninterruptibleRunning: false,
+    behaviorRunning: null,
 };
 
 export const robotVariableSlice = createSlice({
@@ -37,8 +39,17 @@ export const robotVariableSlice = createSlice({
             state.medicineReminder5PM = action.payload.value;
             state.medicineReminder5PMOnTime = action.payload.time;
         },
+        setUninterruptibleRunning: (state, action) => {
+            state.uninterruptibleRunning = action.payload.value;
+        },
+        setBehaviorRunning: (state, action) => {
+            state.behaviorRunning = action.payload.value;
+        },
+        clearBehaviorRunning: (state, action) => {
+            state.behaviorRunning = null;
+        }
     },
-  });
+});
 
 export const selectTrayIsRaised = (state) => state.robotVariable.trayIsRaised;
 export const selectTrayIsEmpty = (state) => state.robotVariable.trayIsEmpty;
@@ -52,6 +63,6 @@ export const selectTrayIsLoweredOnTime = (state) => state.robotVariable.trayIsLo
 export const selectMedicineDue5PMOnTime = (state) => state.robotVariable.medicineDue5PMOnTime;
 export const selectMedicineReminder5PMOnTime = (state) => state.robotVariable.medicineReminder5PMOnTime;
 
-export const {setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setMedicineDue5PM, setMedicineReminder5PM} = robotVariableSlice.actions;
+export const { setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setMedicineDue5PM, setMedicineReminder5PM, setUninterruptibleRunning, setBehaviorRunning, clearBehaviorRunning } = robotVariableSlice.actions;
 
 export default robotVariableSlice.reducer;

@@ -60,7 +60,7 @@ export const goalVariableSlice = createSlice({
         },
         setGOALwatchTV: (state, action) => {
             state.GOALwatchTV = action.payload.value;
-            state.GOALwaitAtSofaOnTime = action.payload.time;
+            state.GOALwatchTVOnTime = action.payload.time;
         },
         setGOALgoToKitchen: (state, action) => {
             state.GOALgoToKitchen = action.payload.value;
@@ -75,7 +75,7 @@ export const goalVariableSlice = createSlice({
             state.GOALwaitHereOnTime = action.payload.time;
         }
     },
-  });
+});
 
 export const selectGOALanswerDoorBell = (state) => state.goalVariable.GOALanswerDoorBell;
 export const selectGOALfridgeUserAlerted = (state) => state.goalVariable.GOALfridgeUserAlerted;
@@ -104,16 +104,16 @@ export const selectGOALwaitAtKitchenOnTime = (state) => state.goalVariable.GOALw
 export const selectGOALwaitHereOnTime = (state) => state.goalVariable.GOALwaitHereOnTime;
 
 export const {
-    setGOALfridgeUserAlerted, 
-    setGOALgoToCharger, 
-    setGOALanswerDoorBell, 
-    setGOALgoToTable, 
+    setGOALfridgeUserAlerted,
+    setGOALgoToCharger,
+    setGOALanswerDoorBell,
+    setGOALgoToTable,
     setGOALwaitAtTable,
     setGOALgoToSofa,
     setGOALwaitAtSofa,
     setGOALgoToKitchen,
     setGOALwaitAtKitchen,
     setGOALwatchTV,
-    setGOALwaitHere} = goalVariableSlice.actions;
+    setGOALwaitHere } = goalVariableSlice.actions;
 
 export default goalVariableSlice.reducer;
