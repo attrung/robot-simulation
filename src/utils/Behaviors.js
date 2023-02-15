@@ -1,6 +1,6 @@
 import { store } from '../app/store';
 import { setColourWhite, setColourYellow, setSpeakText, clearSpeakText, setAction, clearAction, setTorso } from '../features/robotUISlice';
-import { setGOALgoToCharger, setGOALgoToTable, setGOALgoToSofa, setGOALfridgeUserAlerted, setGOALwatchTV } from '../features/goalVariableSlice';
+import { setGOALgoToCharger, setGOALgoToTable, setGOALgoToSofa, setGOALfridgeUserAlerted, setGOALwatchTV, setGOALwaitHere, setGOALgoToKitchen, setGOALwaitAtKitchen, setGOALwaitAtSofa, setGOALwaitAtTable } from '../features/goalVariableSlice';
 import { moveRobotRoom } from '../utils/RobotMovement';
 import { clearBehaviorRunning, setBehaviorRunning, setMedicineDue5PM, setMedicineReminder5PM, setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setUninterruptibleRunning } from '../features/robotVariableSlice';
 
@@ -242,4 +242,132 @@ export const ContinueWatchTV = (map, robot) => {
         }
         afterMove();
     }, 5000);
+}
+
+export const SetContinue = () => {
+    store.dispatch(setGOALwaitHere({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwatchTV({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+}
+
+export const SetGoToKitchen = () => {
+    store.dispatch(setGOALgoToKitchen({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwaitHere({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+}
+
+export const SetGoToSofa = () => {
+    store.dispatch(setGOALgoToSofa({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+}
+
+export const SetGoToTable = () => {
+    store.dispatch(setGOALgoToTable({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+}
+
+export const SetReturnHome = () => {
+    store.dispatch(setGOALgoToCharger({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwaitHere({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwatchTV({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+}
+
+export const SetWaitHere = () => {
+    store.dispatch(setGOALwaitHere({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+}
+
+export const SetWatchTV = () => {
+    store.dispatch(setGOALwatchTV({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+}
+
+export const ResetAllGoals = () => {
+    store.dispatch(setTrayIsRaised({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setTrayIsLowered({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setMedicineDue5PM({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setMedicineReminder5PM({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setTrayIsEmpty({
+        value: true,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALgoToKitchen({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALgoToCharger({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(SetGoToTable({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALgoToSofa({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwaitAtKitchen({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwaitAtSofa({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwaitAtTable({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwaitHere({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALwatchTV({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
+    store.dispatch(setGOALfridgeUserAlerted({
+        value: false,
+        time: store.getState().time.currentTime,
+    }))
 }
