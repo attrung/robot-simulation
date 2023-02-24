@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     trayIsRaised: false,
-    trayIsEmpty: false,
-    trayIsLowered: false,
+    trayIsEmpty: true,
+    trayIsLowered: true,
     medicineDue5PM: false,
     medicineReminder5PM: false,
     trayIsRaisedOnTime: null,
-    trayIsEmptyOnTime: null,
-    trayIsLoweredOnTime: null,
+    trayIsEmptyOnTime: 8 * 3600,
+    trayIsLoweredOnTime: 8 * 3600,
     medicineDue5PMOnTime: null,
     medicineReminder5PMOnTime: null,
     uninterruptibleRunning: false,

@@ -6,8 +6,10 @@ import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { moveRobot } from '../utils/RobotMovement';
 import { selectGUI1, selectGUI2, selectGUI3 } from '../features/robotUISlice';
+import { selectCurrentTime } from '../features/timeSlice';
 import { selectIsMoving, selectMovableCoordinate, selectPersonCoordinate, selectRoomCoordinate, toggleShowMovementMap } from '../features/movementSlice';
 import { SetContinue, SetGoToKitchen, SetGoToSofa, SetGoToTable, SetReturnHome, SetWaitHere, SetWatchTV } from '../utils/Behaviors';
+import { selectTrayIsEmpty, selectTrayIsRaised, setTrayIsEmpty } from '../features/robotVariableSlice';
 
 const commonStyles = {
   bgcolor: 'background.paper',
@@ -25,6 +27,9 @@ export const Controls = ({ map, robot }) => {
   const GUI1 = useSelector(selectGUI1);
   const GUI2 = useSelector(selectGUI2);
   const GUI3 = useSelector(selectGUI3);
+  const trayIsEmpty = useSelector(selectTrayIsEmpty);
+  const trayIsRaised = useSelector(selectTrayIsRaised);
+  const currentTime = useSelector(selectCurrentTime);
 
   const dispatch = useDispatch();
   const moveRobotRandom = () => {
@@ -85,6 +90,27 @@ export const Controls = ({ map, robot }) => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Button variant="outlined" size='small' onClick={() => dispatch(toggleShowMovementMap())}> Toggle Movement Map </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <Typography variant='subtitle1' align="left" spacing={1}> Tray: </Typography>
+              </Grid>
+              <Grid item xs={9}>
+                {trayIsRaised ? <Button variant="outlined" size='small' onClick={() => {
+                  dispatch(setTrayIsEmpty({
+                    value: false,
+                    time: currentTime,
+                  }))
+                }}> Add Item To Tray </Button> : null}
+                {(trayIsRaised && !trayIsEmpty) ? <Button variant="outlined" size='small' onClick={() => {
+                  dispatch(setTrayIsEmpty({
+                    value: true,
+                    time: currentTime,
+                  }))
+                }}> Remove Item From Tray </Button> : null}
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Grid container spacing={2}>

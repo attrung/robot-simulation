@@ -2,7 +2,7 @@ import { store } from '../app/store';
 import { setColourWhite, setColourYellow, setSpeakText, clearSpeakText, setAction, clearAction, setTorso, setGUI1, clearGUI, setGUI2, setGUI3 } from '../features/robotUISlice';
 import { setGOALgoToCharger, setGOALgoToTable, setGOALgoToSofa, setGOALfridgeUserAlerted, setGOALwatchTV, setGOALwaitHere, setGOALgoToKitchen, setGOALwaitAtKitchen, setGOALwaitAtSofa, setGOALwaitAtTable } from '../features/goalVariableSlice';
 import { moveRobotRoom } from '../utils/RobotMovement';
-import { clearBehaviorRunning, setAtomicRunning, setBehaviorRunning, setMedicineDue5PM, setMedicineReminder5PM, setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setUninterruptibleRunning } from '../features/robotVariableSlice';
+import { setAtomicRunning, setBehaviorRunning, setMedicineDue5PM, setMedicineReminder5PM, setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setUninterruptibleRunning } from '../features/robotVariableSlice';
 import { LowerTrayCondition } from './BehaviorsConditions';
 
 export const AlertFridgeDoor = (map, robot) => {

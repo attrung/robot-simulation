@@ -8,6 +8,7 @@ import { selectLightColour, selectSpeakText, selectAction, selectTorso } from '.
 import TextField from '@mui/material/TextField';
 import { yellow, grey } from '@mui/material/colors';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { selectTrayIsEmpty, selectTrayIsRaised } from '../features/robotVariableSlice';
 
 const commonStyles = {
   bgcolor: 'background.paper',
@@ -25,6 +26,9 @@ export const Robot = ({ map, robot }) => {
   const speakText = useSelector(selectSpeakText);
   const action = useSelector(selectAction);
   const torso = useSelector(selectTorso);
+
+  const trayIsEmpty = useSelector(selectTrayIsEmpty);
+  const trayIsRaised = useSelector(selectTrayIsRaised);
 
   const setNewMultiplier = (value) => {
     if (value === "") {
@@ -52,7 +56,7 @@ export const Robot = ({ map, robot }) => {
             <Typography variant='subtitle1' align="left" spacing={1}> Current Time: {timeInString} </Typography>
           </Grid>
           <Grid item xs={12}>
-            <TextField id="outlined-number" label="Mutiplier" variant="outlined" InputLabelProps={{
+            <TextField id="outlined-number" label="Time Mutiplier" variant="outlined" InputLabelProps={{
               shrink: true,
             }} value={multiplier} onChange={(e) => setNewMultiplier(e.target.value)} />
           </Grid>
@@ -81,6 +85,11 @@ export const Robot = ({ map, robot }) => {
           <Grid item xs={12}>
             <Typography variant='subtitle1' align="left" spacing={1}>
               Action: {action ? action : "None"}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant='subtitle1' align="left" spacing={1}>
+              Tray: {trayIsRaised ? "Raised" + (trayIsEmpty ? " Empty" : " Not Empty") : "Lowered"}
             </Typography>
           </Grid>
         </Grid>
