@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import { selectMultiplier, selectTimeInString, setMultiplier } from '../features/timeSlice';
-import { selectLightColour, selectSpeakText, selectGUI1, selectGUI2, selectGUI3, selectAction, selectTorso } from '../features/robotUISlice';
+import { selectLightColour, selectSpeakText, selectAction, selectTorso } from '../features/robotUISlice';
 import TextField from '@mui/material/TextField';
 import { yellow, grey } from '@mui/material/colors';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -25,9 +25,6 @@ export const Robot = ({ map, robot }) => {
   const speakText = useSelector(selectSpeakText);
   const action = useSelector(selectAction);
   const torso = useSelector(selectTorso);
-  const GUI1 = useSelector(selectGUI1);
-  const GUI2 = useSelector(selectGUI2);
-  const GUI3 = useSelector(selectGUI3);
 
   const setNewMultiplier = (value) => {
     if (value === "") {

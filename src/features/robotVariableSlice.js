@@ -13,6 +13,8 @@ const initialState = {
     medicineReminder5PMOnTime: null,
     uninterruptibleRunning: false,
     behaviorRunning: null,
+    behaviorScheduled: null,
+    atomicRunning: false,
 };
 
 export const robotVariableSlice = createSlice({
@@ -39,11 +41,17 @@ export const robotVariableSlice = createSlice({
             state.medicineReminder5PM = action.payload.value;
             state.medicineReminder5PMOnTime = action.payload.time;
         },
+        setAtomicRunning: (state, action) => {
+            state.atomicRunning = action.payload.value;
+        },
         setUninterruptibleRunning: (state, action) => {
             state.uninterruptibleRunning = action.payload.value;
         },
         setBehaviorRunning: (state, action) => {
             state.behaviorRunning = action.payload.value;
+        },
+        setBehaviorScheduled: (state, action) => {
+            state.behaviorScheduled = action.payload.value;
         },
         clearBehaviorRunning: (state, action) => {
             state.behaviorRunning = null;
@@ -63,6 +71,11 @@ export const selectTrayIsLoweredOnTime = (state) => state.robotVariable.trayIsLo
 export const selectMedicineDue5PMOnTime = (state) => state.robotVariable.medicineDue5PMOnTime;
 export const selectMedicineReminder5PMOnTime = (state) => state.robotVariable.medicineReminder5PMOnTime;
 
-export const { setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setMedicineDue5PM, setMedicineReminder5PM, setUninterruptibleRunning, setBehaviorRunning, clearBehaviorRunning } = robotVariableSlice.actions;
+export const selectAtomicRunning = (state) => state.robotVariable.atomicRunning;
+export const selectBehaviourRunning = (state) => state.robotVariable.behaviorRunning;
+export const selectUninterruptibleRunning = (state) => state.robotVariable.uninterruptibleRunning;
+export const selectBehaviourScheduled = (state) => state.robotVariable.behaviorScheduled;
+
+export const { setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setMedicineDue5PM, setMedicineReminder5PM, setAtomicRunning, setUninterruptibleRunning, setBehaviorRunning, setBehaviorScheduled, clearBehaviorRunning } = robotVariableSlice.actions;
 
 export default robotVariableSlice.reducer;

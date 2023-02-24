@@ -18,9 +18,9 @@ export function generateMovementMap(height, width) {
     const lr2 = [width * 0.265, height * 0.15];
     const lr3 = [width * 0.265, height * 0.03];
     const lr4 = [width * 0.33, height * 0.18];
-    store.dispatch(setTvCoordinate({ coordinate: lr4 }));
     const lr5 = [width * 0.46, height * 0.18];
-    store.dispatch(setSofaCoordinate({ coordinate: lr5 }));
+    store.dispatch(setTvCoordinate({ coordinate: lr5 }));
+    store.dispatch(setSofaCoordinate({ coordinate: lr4 }));
     // walking hall
     const wh1 = [width * 0.192, height * 0.35];
     const wh2 = [width * 0.192, height * 0.445];
