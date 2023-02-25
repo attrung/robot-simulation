@@ -23,8 +23,8 @@ export default function Behavior() {
     <Box sx={{ display: 'flex', justifyContent: 'center', height: '48vh' }}>
       <Box sx={{ ...commonStyles, border: 1 }}>
         <Typography variant='subtitle1' align="center"> Behavior </Typography>
-        <Typography variant='subtitle1' align="center"> Behavior Running: {behaviorRunning} </Typography>
-        <Typography variant='subtitle1' align="center"> Behavior Scheduled: {behaviorScheduled} </Typography>
+        <Typography variant='subtitle1' align="center"> Behavior Running: {behaviorRunning ? behaviorRunning : "None"} </Typography>
+        <Typography variant='subtitle1' align="center"> Behavior Scheduled: {behaviorScheduled ? behaviorScheduled : "None"} </Typography>
         <Typography variant='subtitle1' align="center"> Atomic Running: {atomicRunning ? "True" : "False"} </Typography>
         <Typography variant='subtitle1' align="center"> Uninterruptible Running: {uninterruptibleRunning ? "True" : "False"} </Typography>
       </Box>

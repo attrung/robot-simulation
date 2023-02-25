@@ -296,6 +296,7 @@ const addDoorBell = (canvas, width, height) => {
             canvas.add(doorBell);
             doorBell.on('mousedown', () => {
                 store.dispatch(toggleBellRang({ time: store.getState().time.currentTime }));
+                setTimeout(() => store.dispatch(toggleBellRang({ time: store.getState().time.currentTime })), 4000);
             });
         },
         {

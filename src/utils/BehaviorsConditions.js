@@ -10,6 +10,15 @@ export const LowerTrayCondition = () => {
     return false;
 }
 
+export const RaiseTrayCondition = () => {
+    if (
+        store.getState().robotVariable.trayIsLowered === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
 export const AlertFridgeDoorCondition = () => {
     if (
         store.getState().sensor.fridgeOpen &&
@@ -77,6 +86,112 @@ export const ContinueWatchTVCondition = () => {
     if (
         store.getState().goalVariable.GOALwatchTV === true &&
         store.getState().sensor.tvOn === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const AnswerDoorbellCondition = () => {
+    if (
+        store.getState().goalVariable.GOALanswerDoorBell === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const CheckBellCondition = () => {
+    if (
+        store.getState().sensor.bellRang
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const UncheckBellCondition = () => {
+    if (
+        store.getState().goalVariable.GOALanswerDoorBell === true &&
+        store.getState().time.currentTime - store.getState().goalVariable.GOALanswerDoorBellOnTime >= 10
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const GoToKitchenCondition = () => {
+    if (
+        store.getState().goalVariable.GOALgoToKitchen === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const GoToSofaCondition = () => {
+    if (
+        store.getState().goalVariable.GOALgoToSofa === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const GoToTableCondition = () => {
+    if (
+        store.getState().goalVariable.GOALgoToTable === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const KitchenAwaitCommandCondition = () => {
+    if (
+        store.getState().movement.currentCoordinate[0] === store.getState().movement.kitchenCoordinate[0] &&
+        store.getState().movement.currentCoordinate[1] === store.getState().movement.kitchenCoordinate[1] &&
+        store.getState().goalVariable.GOALwaitAtKitchen === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const SofaAwaitCommandCondition = () => {
+    if (
+        store.getState().movement.currentCoordinate[0] === store.getState().movement.sofaCoordinate[0] &&
+        store.getState().movement.currentCoordinate[1] === store.getState().movement.sofaCoordinate[1] &&
+        store.getState().goalVariable.GOALwaitAtSofa === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const TableAwaitCommandCondition = () => {
+    if (
+        store.getState().movement.currentCoordinate[0] === store.getState().movement.diningAreaCoordinate[0] &&
+        store.getState().movement.currentCoordinate[1] === store.getState().movement.diningAreaCoordinate[1] &&
+        store.getState().goalVariable.GOALwaitAtTable === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const ReturnHomeCondition = () => {
+    if (
+        store.getState().goalVariable.GOALgoToCharger === true
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export const WaitHereCondition = () => {
+    if (
+        store.getState().goalVariable.GOALwaitHere === true
     ) {
         return true;
     }

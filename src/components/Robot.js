@@ -89,7 +89,7 @@ export const Robot = ({ map, robot }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant='subtitle1' align="left" spacing={1}>
-              Tray: {trayIsRaised ? "Raised" + (trayIsEmpty ? " Empty" : " Not Empty") : "Lowered"}
+              Tray: {trayIsRaised ? "Raised, " + (trayIsEmpty ? " Empty" : " Not Empty") : "Lowered"}
             </Typography>
           </Grid>
         </Grid>

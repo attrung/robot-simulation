@@ -1,6 +1,6 @@
 import { fabric } from 'fabric';
 import { store } from '../app/store';
-import { setRobotCoordinate, setIsMoving, setHallCoordinate, setDiningAreaCoordinate, setTvCoordinate, setSofaCoordinate, setKitchenCoordinate, setBathroomCoordinate, setOfficeCoordinate, setBedroomCoordinate } from '../features/movementSlice';
+import { setRobotCoordinate, setIsMoving, setHallCoordinate, setDiningAreaCoordinate, setTvCoordinate, setSofaCoordinate, setKitchenCoordinate, setBathroomCoordinate, setOfficeCoordinate, setBedroomCoordinate, setChargerCoordinate } from '../features/movementSlice';
 
 export function generateMovementMap(height, width) {
     // hall
@@ -21,6 +21,7 @@ export function generateMovementMap(height, width) {
     const lr5 = [width * 0.46, height * 0.18];
     store.dispatch(setTvCoordinate({ coordinate: lr5 }));
     store.dispatch(setSofaCoordinate({ coordinate: lr4 }));
+    store.dispatch(setChargerCoordinate({ coordinate: lr3 }));
     // walking hall
     const wh1 = [width * 0.192, height * 0.35];
     const wh2 = [width * 0.192, height * 0.445];
@@ -31,7 +32,7 @@ export function generateMovementMap(height, width) {
     // kitchen
     const k1 = [width * 0.125, height * 0.445];
     const k2 = [width * 0.075, height * 0.52];
-    store.dispatch(setKitchenCoordinate({ coordinate: k2 }));
+    store.dispatch(setKitchenCoordinate({ coordinate: k1 }));
 
     // bathroom
     const b1 = [width * 0.10, height * 0.72];
@@ -189,7 +190,8 @@ export const moveRobotRoom = (map, robot, room) => {
         "hall": store.getState().movement.hallCoordinate,
         "diningArea": store.getState().movement.diningAreaCoordinate,
         "tv": store.getState().movement.tvCoordinate,
-        "sofa": store.getState().movement.sofaCoordinate
+        "sofa": store.getState().movement.sofaCoordinate,
+        "charger": store.getState().movement.chargerCoordinate,
     }
     if (!isMoving) {
         const node = destinationCoordinates[room];

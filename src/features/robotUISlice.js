@@ -8,6 +8,7 @@ const initialState = {
     GUI1: null,
     GUI2: null,
     GUI3: null,
+    GUI4: null,
 };
 
 export const robotUISlice = createSlice({
@@ -50,10 +51,14 @@ export const robotUISlice = createSlice({
         setGUI3: (state, action) => {
             state.GUI3 = action.payload.value;
         },
+        setGUI4: (state, action) => {
+            state.GUI4 = action.payload.value;
+        },
         clearGUI: (state, action) => {
             state.GUI1 = null;
             state.GUI2 = null;
             state.GUI3 = null;
+            state.GUI4 = null;
         }
     },
 });
@@ -65,7 +70,8 @@ export const selectTorso = (state) => state.robotUI.torso;
 export const selectGUI1 = (state) => state.robotUI.GUI1;
 export const selectGUI2 = (state) => state.robotUI.GUI2;
 export const selectGUI3 = (state) => state.robotUI.GUI3;
+export const selectGUI4 = (state) => state.robotUI.GUI4;
 
-export const { setColourYellow, setColourWhite, clearColour, setTorso, clearTorso, setSpeakText, clearSpeakText, setAction, clearAction, setGUI1, setGUI2, setGUI3, clearGUI } = robotUISlice.actions;
+export const { setColourYellow, setColourWhite, clearColour, setTorso, clearTorso, setSpeakText, clearSpeakText, setAction, clearAction, setGUI1, setGUI2, setGUI3, setGUI4, clearGUI } = robotUISlice.actions;
 
 export default robotUISlice.reducer;

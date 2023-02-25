@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { moveRobot } from '../utils/RobotMovement';
-import { selectGUI1, selectGUI2, selectGUI3 } from '../features/robotUISlice';
+import { selectGUI1, selectGUI2, selectGUI3, selectGUI4 } from '../features/robotUISlice';
 import { selectCurrentTime } from '../features/timeSlice';
 import { selectIsMoving, selectMovableCoordinate, selectPersonCoordinate, selectRoomCoordinate, toggleShowMovementMap } from '../features/movementSlice';
 import { SetContinue, SetGoToKitchen, SetGoToSofa, SetGoToTable, SetReturnHome, SetWaitHere, SetWatchTV } from '../utils/Behaviors';
@@ -27,6 +27,7 @@ export const Controls = ({ map, robot }) => {
   const GUI1 = useSelector(selectGUI1);
   const GUI2 = useSelector(selectGUI2);
   const GUI3 = useSelector(selectGUI3);
+  const GUI4 = useSelector(selectGUI4);
   const trayIsEmpty = useSelector(selectTrayIsEmpty);
   const trayIsRaised = useSelector(selectTrayIsRaised);
   const currentTime = useSelector(selectCurrentTime);
@@ -97,7 +98,7 @@ export const Controls = ({ map, robot }) => {
                 <Typography variant='subtitle1' align="left" spacing={1}> Tray: </Typography>
               </Grid>
               <Grid item xs={9}>
-                {trayIsRaised ? <Button variant="outlined" size='small' onClick={() => {
+                {trayIsRaised && trayIsEmpty ? <Button variant="outlined" size='small' onClick={() => {
                   dispatch(setTrayIsEmpty({
                     value: false,
                     time: currentTime,
@@ -125,6 +126,9 @@ export const Controls = ({ map, robot }) => {
               </Grid>
               <Grid item xs={12}>
                 {GUI3 ? <Button variant="outlined" size='small' onClick={GUItoBehaviorMap[GUI3]}> {GUItoStringMap[GUI3]} </Button> : null}
+              </Grid>
+              <Grid item xs={12}>
+                {GUI4 ? <Button variant="outlined" size='small' onClick={GUItoBehaviorMap[GUI4]}> {GUItoStringMap[GUI4]} </Button> : null}
               </Grid>
               {/* <Grid item>
                 <Button variant="outlined" size='small' onClick={moveRobotRandom}> Move Random </Button>
