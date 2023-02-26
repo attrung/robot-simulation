@@ -362,7 +362,6 @@ export const ContinueWatchTV = (map, robot) => {
                             return;
                         }
                         setGUI("ReturnHome", "Continue");
-                        store.dispatch(clearBehaviorRunning());
                     }, 5000)
                 }, 5000)
             }
