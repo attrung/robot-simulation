@@ -5,11 +5,11 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { moveRobot } from '../utils/RobotMovement';
-import { selectGUI1, selectGUI2, selectGUI3, selectGUI4 } from '../features/robotUISlice';
+import { clearGUI, selectGUI1, selectGUI2, selectGUI3, selectGUI4 } from '../features/robotUISlice';
 import { selectCurrentTime } from '../features/timeSlice';
 import { selectIsMoving, selectMovableCoordinate, selectPersonCoordinate, selectRoomCoordinate, toggleShowMovementMap } from '../features/movementSlice';
 import { SetContinue, SetGoToKitchen, SetGoToSofa, SetGoToTable, SetReturnHome, SetWaitHere, SetWatchTV } from '../utils/Behaviors';
-import { selectTrayIsEmpty, selectTrayIsRaised, setTrayIsEmpty } from '../features/robotVariableSlice';
+import { clearBehaviorRunning, selectTrayIsEmpty, selectTrayIsRaised, setAtomicRunning, setTrayIsEmpty, setUninterruptibleRunning } from '../features/robotVariableSlice';
 
 const commonStyles = {
   bgcolor: 'background.paper',
@@ -84,6 +84,18 @@ export const Controls = ({ map, robot }) => {
     "WatchTV": "Watch TV",
   }
 
+  const GUIPressed = (callback) => {
+    callback();
+    dispatch(clearGUI());
+    dispatch(setUninterruptibleRunning({
+      value: false,
+    }))
+    dispatch(setAtomicRunning({
+      value: false,
+    }))
+    dispatch(clearBehaviorRunning());
+  };
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', height: '48vh' }}>
       <Box sx={{ ...commonStyles, border: 1 }}>
@@ -119,16 +131,16 @@ export const Controls = ({ map, robot }) => {
                 <Typography variant='subtitle1' align="left" spacing={1}> GUI Options: </Typography>
               </Grid>
               <Grid item xs={12}>
-                {GUI1 ? <Button variant="outlined" size='small' onClick={GUItoBehaviorMap[GUI1]}> {GUItoStringMap[GUI1]} </Button> : null}
+                {GUI1 ? <Button variant="outlined" size='small' onClick={() => GUIPressed(GUItoBehaviorMap[GUI1])}> {GUItoStringMap[GUI1]} </Button> : null}
               </Grid>
               <Grid item xs={12}>
-                {GUI2 ? <Button variant="outlined" size='small' onClick={GUItoBehaviorMap[GUI2]}> {GUItoStringMap[GUI2]} </Button> : null}
+                {GUI2 ? <Button variant="outlined" size='small' onClick={() => GUIPressed(GUItoBehaviorMap[GUI2])}> {GUItoStringMap[GUI2]} </Button> : null}
               </Grid>
               <Grid item xs={12}>
-                {GUI3 ? <Button variant="outlined" size='small' onClick={GUItoBehaviorMap[GUI3]}> {GUItoStringMap[GUI3]} </Button> : null}
+                {GUI3 ? <Button variant="outlined" size='small' onClick={() => GUIPressed(GUItoBehaviorMap[GUI3])}> {GUItoStringMap[GUI3]} </Button> : null}
               </Grid>
               <Grid item xs={12}>
-                {GUI4 ? <Button variant="outlined" size='small' onClick={GUItoBehaviorMap[GUI4]}> {GUItoStringMap[GUI4]} </Button> : null}
+                {GUI4 ? <Button variant="outlined" size='small' onClick={() => GUIPressed(GUItoBehaviorMap[GUI4])}> {GUItoStringMap[GUI4]} </Button> : null}
               </Grid>
               {/* <Grid item>
                 <Button variant="outlined" size='small' onClick={moveRobotRandom}> Move Random </Button>

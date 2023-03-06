@@ -16,7 +16,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "Med5PMReset"
         }))
-        schedule(Med5PMReset);
+        schedule(Med5PMReset, "Med5PMReset");
         return;
     }
 
@@ -28,7 +28,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "CheckBell",
         }))
-        schedule(CheckBell);
+        schedule(CheckBell, "CheckBell");
         return;
     }
 
@@ -39,7 +39,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "UncheckBell",
         }))
-        schedule(UncheckBell);
+        schedule(UncheckBell, "UncheckBell");
         return;
     }
 
@@ -50,7 +50,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "RemindFridgeDoor"
         }))
-        schedule(RemindFridgeDoor);
+        schedule(RemindFridgeDoor, "RemindFridgeDoor");
         return;
     }
 
@@ -62,7 +62,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "AnswerDoorbell"
         }))
-        schedule(AnswerDoorbell);
+        schedule(AnswerDoorbell, "AnswerDoorbell");
         return;
     }
 
@@ -74,7 +74,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "AlertFridgeDoor"
         }))
-        schedule(() => AlertFridgeDoor(map, robot));
+        schedule(() => AlertFridgeDoor(map, robot), "AlertFridgeDoor");
         return;
     }
 
@@ -86,7 +86,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "Med5PM"
         }))
-        schedule(() => Med5PM(map, robot));
+        schedule(() => Med5PM(map, robot), "Med5PM");
         return;
     }
 
@@ -97,7 +97,96 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "Med5PMRemind"
         }))
-        schedule(() => Med5PMRemind(map, robot));
+        schedule(() => Med5PMRemind(map, robot), "Med5PMRemind");
+        return;
+    }
+
+    // Priority 40
+    if (GoToKitchenCondition()) {
+        if (store.getState().robotVariable.behaviorScheduled === "GoToKitchen") {
+            return;
+        }
+        store.dispatch(setBehaviorScheduled({
+            value: "GoToKitchen",
+        }))
+        schedule(() => GoToKitchen(map, robot), "GoToKitchen");
+        return;
+    }
+
+    if (GoToSofaCondition()) {
+        if (store.getState().robotVariable.behaviorScheduled === "GoToSofa") {
+            return;
+        }
+        store.dispatch(setBehaviorScheduled({
+            value: "GoToSofa",
+        }))
+        schedule(() => GoToSofa(map, robot), "GoToSofa");
+        return;
+    }
+
+    if (GoToTableCondition()) {
+        if (store.getState().robotVariable.behaviorScheduled === "GoToTable") {
+            return;
+        }
+        store.dispatch(setBehaviorScheduled({
+            value: "GoToTable",
+        }))
+        schedule(() => GoToTable(map, robot), "GoToTable");
+        return;
+    }
+
+    if (KitchenAwaitCommandCondition()) {
+        if (store.getState().robotVariable.behaviorScheduled === "KitchenAwaitCommand") {
+            return;
+        }
+        store.dispatch(setBehaviorScheduled({
+            value: "KitchenAwaitCommand",
+        }))
+        schedule(KitchenAwaitCommand, "KitchenAwaitCommand");
+        return;
+    }
+
+    if (SofaAwaitCommandCondition()) {
+        if (store.getState().robotVariable.behaviorScheduled === "SofaAwaitCommand") {
+            return;
+        }
+        store.dispatch(setBehaviorScheduled({
+            value: "SofaAwaitCommand",
+        }))
+        schedule(SofaAwaitCommand, "SofaAwaitCommand");
+        return;
+    }
+
+    if (TableAwaitCommandCondition()) {
+        if (store.getState().robotVariable.behaviorScheduled === "TableAwaitCommand") {
+            return;
+        }
+        store.dispatch(setBehaviorScheduled({
+            value: "TableAwaitCommand",
+        }))
+        schedule(TableAwaitCommand, "TableAwaitCommand");
+        return;
+    }
+
+    if (ReturnHomeCondition()) {
+        if (store.getState().robotVariable.behaviorScheduled === "ReturnHome") {
+            return;
+        }
+        store.dispatch(setBehaviorScheduled({
+            value: "ReturnHome",
+        }))
+        schedule(() => ReturnHome(map, robot), "ReturnHome");
+        return;
+    }
+
+    if (WaitHereCondition()) {
+        if (store.getState().robotVariable.behaviorScheduled === "WaitHere") {
+            return;
+        }
+        store.dispatch(setBehaviorScheduled({
+            value: "WaitHere",
+        }))
+        schedule(() => WaitHere(), "WaitHere");
         return;
     }
 
@@ -109,7 +198,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "ContinueWatchTV"
         }))
-        schedule(() => ContinueWatchTV(map, robot));
+        schedule(() => ContinueWatchTV(map, robot), "ContinueWatchTV");
         return;
     }
 
@@ -121,96 +210,7 @@ export const runScheduler = (map, robot) => {
         store.dispatch(setBehaviorScheduled({
             value: "WatchTV"
         }))
-        schedule(() => WatchTV(map, robot));
-        return;
-    }
-
-    // Priority 0
-    if (GoToKitchenCondition()) {
-        if (store.getState().robotVariable.behaviorScheduled === "GoToKitchen") {
-            return;
-        }
-        store.dispatch(setBehaviorScheduled({
-            value: "GoToKitchen",
-        }))
-        schedule(() => GoToKitchen(map, robot));
-        return;
-    }
-
-    if (GoToSofaCondition()) {
-        if (store.getState().robotVariable.behaviorScheduled === "GoToSofa") {
-            return;
-        }
-        store.dispatch(setBehaviorScheduled({
-            value: "GoToSofa",
-        }))
-        schedule(() => GoToSofa(map, robot));
-        return;
-    }
-
-    if (GoToTableCondition()) {
-        if (store.getState().robotVariable.behaviorScheduled === "GoToTable") {
-            return;
-        }
-        store.dispatch(setBehaviorScheduled({
-            value: "GoToTable",
-        }))
-        schedule(() => GoToTable(map, robot));
-        return;
-    }
-
-    if (KitchenAwaitCommandCondition()) {
-        if (store.getState().robotVariable.behaviorScheduled === "KitchenAwaitCommand") {
-            return;
-        }
-        store.dispatch(setBehaviorScheduled({
-            value: "KitchenAwaitCommand",
-        }))
-        schedule(KitchenAwaitCommand);
-        return;
-    }
-
-    if (SofaAwaitCommandCondition()) {
-        if (store.getState().robotVariable.behaviorScheduled === "SofaAwaitCommand") {
-            return;
-        }
-        store.dispatch(setBehaviorScheduled({
-            value: "SofaAwaitCommand",
-        }))
-        schedule(SofaAwaitCommand);
-        return;
-    }
-
-    if (TableAwaitCommandCondition()) {
-        if (store.getState().robotVariable.behaviorScheduled === "TableAwaitCommand") {
-            return;
-        }
-        store.dispatch(setBehaviorScheduled({
-            value: "TableAwaitCommand",
-        }))
-        schedule(TableAwaitCommand);
-        return;
-    }
-
-    if (ReturnHomeCondition()) {
-        if (store.getState().robotVariable.behaviorScheduled === "ReturnHome") {
-            return;
-        }
-        store.dispatch(setBehaviorScheduled({
-            value: "ReturnHome",
-        }))
-        schedule(() => ReturnHome(map, robot));
-        return;
-    }
-
-    if (WaitHereCondition()) {
-        if (store.getState().robotVariable.behaviorScheduled === "WaitHere") {
-            return;
-        }
-        store.dispatch(setBehaviorScheduled({
-            value: "WaitHere",
-        }))
-        schedule(() => WaitHere());
+        schedule(() => WatchTV(map, robot), "WatchTV");
         return;
     }
 
@@ -219,12 +219,14 @@ export const runScheduler = (map, robot) => {
     }))
 }
 
-const schedule = (to_run) => {
+const schedule = (to_run, name) => {
     const waitAtomic = () => {
         if (store.getState().robotVariable.atomicRunning) {
             setTimeout(waitAtomic, 100);
         } else {
-            to_run();
+            if (store.getState().robotVariable.behaviorScheduled === name) {
+                to_run();
+            }
         }
     }
     waitAtomic();

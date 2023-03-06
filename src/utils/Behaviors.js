@@ -2,7 +2,7 @@ import { store } from '../app/store';
 import { setColourWhite, setColourYellow, setSpeakText, clearSpeakText, setAction, clearAction, setTorso, setGUI1, clearGUI, setGUI2, setGUI3, setGUI4 } from '../features/robotUISlice';
 import { setGOALgoToCharger, setGOALgoToTable, setGOALgoToSofa, setGOALfridgeUserAlerted, setGOALwatchTV, setGOALwaitHere, setGOALgoToKitchen, setGOALwaitAtKitchen, setGOALwaitAtSofa, setGOALwaitAtTable, setGOALanswerDoorBell } from '../features/goalVariableSlice';
 import { moveRobotRoom } from '../utils/RobotMovement';
-import { clearBehaviorRunning, setAtomicRunning, setBehaviorRunning, setMedicineDue5PM, setMedicineReminder5PM, setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setUninterruptibleRunning } from '../features/robotVariableSlice';
+import { clearBehaviorRunning, setAtomicRunning, setBehaviorRunning, setBehaviorScheduled, setMedicineDue5PM, setMedicineReminder5PM, setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setUninterruptibleRunning } from '../features/robotVariableSlice';
 import { LowerTrayCondition, RaiseTrayCondition } from './BehaviorsConditions';
 
 // Helper with Trays
@@ -32,7 +32,7 @@ export const LowerTray = () => {
         }))
         endAtomic();
         endUninterruptible();
-    }, 5000);
+    }, 5000 / timeMut());
 }
 
 export const RaiseTray = () => {
@@ -61,7 +61,7 @@ export const RaiseTray = () => {
         }))
         endAtomic();
         endUninterruptible();
-    }, 5000);
+    }, 5000 / timeMut());
 }
 
 // Main Behaviours
@@ -101,14 +101,22 @@ export const AlertFridgeDoor = (map, robot) => {
                     value: false,
                     time: store.getState().time.currentTime,
                 }));
+                startAtomic();
                 setGUI("GoToKitchen", "WaitHere");
                 store.dispatch(setGOALfridgeUserAlerted({
                     value: true,
                     time: store.getState().time.currentTime,
                 }))
-                endUninterruptible();
-                store.dispatch(clearBehaviorRunning());
-            }, 5000);
+                setTimeout(() => {
+                    if (store.getState().robotVariable.behaviorRunning !== "AlertFridgeDoor") {
+                        return;
+                    }
+                    endAtomic();
+                    store.dispatch(clearGUI());
+                    endUninterruptible();
+                    store.dispatch(clearBehaviorRunning());
+                }, 30000 / timeMut());
+            }, 5000 / timeMut());
         }
     }
     afterMove();
@@ -182,7 +190,7 @@ export const Med5PMRemind = (map, robot) => {
                     time: store.getState().time.currentTime,
                 }))
                 store.dispatch(clearBehaviorRunning());
-            }, 5000);
+            }, 5000 / timeMut());
         }
     }
     afterMove();
@@ -222,9 +230,17 @@ export const Med5PM = (map, robot) => {
                     value: true,
                     time: store.getState().time.currentTime,
                 }))
+                startAtomic();
                 setGUI("GoToKitchen", "ReturnHome", "WaitHere");
-                store.dispatch(clearBehaviorRunning());
-            }, 5000);
+                setTimeout(() => {
+                    if (store.getState().robotVariable.behaviorRunning !== "Med5PM") {
+                        return;
+                    }
+                    endAtomic();
+                    store.dispatch(clearGUI());
+                    store.dispatch(clearBehaviorRunning());
+                }, 30000 / timeMut());
+            }, 5000 / timeMut());
         }
     }
     afterMove();
@@ -283,14 +299,25 @@ export const WatchTV = (map, robot) => {
                         value: false,
                         time: store.getState().time.currentTime,
                     }))
-                    setGUI("WatchTV", "ReturnHome", "Continue");
                     endAtomic();
-                    store.dispatch(clearBehaviorRunning());
-                }, 8000);
+                    if (store.getState().robotVariable.behaviorScheduled !== "WatchTV") {
+                        return;
+                    }
+                    startAtomic();
+                    setGUI("WatchTV", "ReturnHome", "Continue");
+                    setTimeout(() => {
+                        if (store.getState().robotVariable.behaviorRunning !== "WatchTV") {
+                            return;
+                        }
+                        endAtomic();
+                        store.dispatch(clearGUI());
+                        store.dispatch(clearBehaviorRunning());
+                    }, 30000 / timeMut());
+                }, 8000 / timeMut());
             }
         }
         afterMove();
-    }, timeout_tray);
+    }, timeout_tray / timeMut());
 }
 
 export const ContinueWatchTV = (map, robot) => {
@@ -362,12 +389,12 @@ export const ContinueWatchTV = (map, robot) => {
                             return;
                         }
                         setGUI("ReturnHome", "Continue");
-                    }, 5000)
-                }, 5000)
+                    }, 5000 / timeMut())
+                }, 5000 / timeMut())
             }
         }
         afterMove();
-    }, timeout_tray);
+    }, timeout_tray / timeMut());
 }
 
 export const AnswerDoorbell = () => {
@@ -393,8 +420,8 @@ export const AnswerDoorbell = () => {
             endAtomic();
             endUninterruptible();
             store.dispatch(clearBehaviorRunning());
-        }, 5000)
-    }, 5000);
+        }, 5000 / timeMut())
+    }, 5000 / timeMut());
 }
 
 export const CheckBell = () => {
@@ -457,9 +484,9 @@ export const GoToKitchen = (map, robot) => {
         value: "GoToKitchen"
     }))
     store.dispatch(setColourYellow());
-    var timeout_tray = 0;
+    var timeout_tray1 = 0;
     if (LowerTrayCondition()) {
-        timeout_tray = 5000;
+        timeout_tray1 = 5000;
         startAtomic();
         store.dispatch(setAction({
             value: "Lowering Tray",
@@ -467,7 +494,7 @@ export const GoToKitchen = (map, robot) => {
     }
     setTimeout(() => {
         store.dispatch(clearAction());
-        if (timeout_tray !== 0) {
+        if (timeout_tray1 !== 0) {
             store.dispatch(setTrayIsRaised({
                 value: false,
                 time: store.getState().time.currentTime,
@@ -491,6 +518,7 @@ export const GoToKitchen = (map, robot) => {
                 if (store.getState().robotVariable.behaviorScheduled !== "GoToKitchen") {
                     return;
                 }
+                var timeout_tray = 0;
                 if (RaiseTrayCondition()) {
                     timeout_tray = 5000;
                     startAtomic();
@@ -519,23 +547,31 @@ export const GoToKitchen = (map, robot) => {
                         time: store.getState().time.currentTime,
                     }))
                     store.dispatch(clearBehaviorRunning());
-                }, timeout_tray)
+                }, timeout_tray / timeMut())
             }
         }
         afterMove();
-    }, timeout_tray);
+    }, timeout_tray1 / timeMut());
 }
 
 export const KitchenAwaitCommand = () => {
     store.dispatch(setBehaviorRunning({
         value: "KitchenAwaitCommand"
     }))
+    startAtomic();
     setGUI("GoToSofa", "GoToTable", "Continue", "WaitHere");
     store.dispatch(setGOALwaitAtKitchen({
         value: false,
         time: store.getState().time.currentTime,
     }))
-    store.dispatch(clearBehaviorRunning());
+    setTimeout(() => {
+        if (store.getState().robotVariable.behaviorRunning !== "KitchenAwaitCommand") {
+            return;
+        }
+        endAtomic();
+        store.dispatch(clearGUI());
+        store.dispatch(clearBehaviorRunning());
+    }, 30000 / timeMut());
 }
 
 export const SetGoToSofa = () => {
@@ -604,19 +640,27 @@ export const GoToSofa = (map, robot) => {
             }
         }
         afterMove();
-    }, timeout_tray);
+    }, timeout_tray / timeMut());
 }
 
 export const SofaAwaitCommand = () => {
     store.dispatch(setBehaviorRunning({
         value: "SofaAwaitCommand"
     }))
+    startAtomic();
     setGUI("ReturnHome", "WaitHere", "Continue");
     store.dispatch(setGOALwaitAtSofa({
         value: false,
         time: store.getState().time.currentTime,
     }))
-    store.dispatch(clearBehaviorRunning());
+    setTimeout(() => {
+        if (store.getState().robotVariable.behaviorRunning !== "SofaAwaitCommand") {
+            return;
+        }
+        endAtomic();
+        store.dispatch(clearGUI());
+        store.dispatch(clearBehaviorRunning());
+    }, 30000 / timeMut());
 }
 
 export const SetGoToTable = () => {
@@ -685,19 +729,27 @@ export const GoToTable = (map, robot) => {
             }
         }
         afterMove();
-    }, timeout_tray);
+    }, timeout_tray / timeMut());
 }
 
 export const TableAwaitCommand = () => {
     store.dispatch(setBehaviorRunning({
         value: "TableAwaitCommand"
     }))
+    startAtomic();
     setGUI("ReturnHome", "WaitHere", "Continue");
     store.dispatch(setGOALwaitAtTable({
         value: false,
         time: store.getState().time.currentTime,
     }))
-    store.dispatch(clearBehaviorRunning());
+    setTimeout(() => {
+        if (store.getState().robotVariable.behaviorRunning !== "TableAwaitCommand") {
+            return;
+        }
+        endAtomic();
+        store.dispatch(clearGUI());
+        store.dispatch(clearBehaviorRunning());
+    }, 30000 / timeMut());
 }
 
 export const SetReturnHome = () => {
@@ -770,7 +822,7 @@ export const ReturnHome = (map, robot) => {
             }
         }
         afterMove();
-    }, timeout_tray);
+    }, timeout_tray / timeMut());
 }
 
 export const SetWaitHere = () => {
@@ -781,6 +833,11 @@ export const SetWaitHere = () => {
         value: true,
         time: store.getState().time.currentTime,
     }))
+    if (store.getState().robotVariable.behaviorScheduled === "WaitHere") {
+        store.dispatch(setBehaviorScheduled({
+            value: null,
+        }))
+    }
     store.dispatch(clearBehaviorRunning());
 }
 
@@ -798,13 +855,12 @@ export const WaitHere = () => {
         setTimeout(() => {
             store.dispatch(setColourWhite());
             endAtomic();
-            if (store.getState().robotVariable.behaviorRunning !== "WaitHere") {
+            if (store.getState().robotVariable.behaviorScheduled !== "WaitHere") {
                 return;
             }
             setGUI("WaitHere", "ReturnHome", "Continue");
-            store.dispatch(clearBehaviorRunning());
-        }, 1000)
-    }, 1000)
+        }, 1000 / timeMut())
+    }, 1000 / timeMut())
 }
 
 export const SetWatchTV = () => {
@@ -923,4 +979,8 @@ const endAtomic = () => {
     store.dispatch(setAtomicRunning({
         value: false,
     }))
+}
+
+const timeMut = () => {
+    return store.getState().time.multiplier;
 }
