@@ -197,3 +197,12 @@ export const WaitHereCondition = () => {
     }
     return false;
 }
+
+export const TMedicineCondition = () => {
+    if (
+        store.getState().time.currentTime >= 17 * 3600
+    ) {
+        return true;
+    }
+    return false;
+}

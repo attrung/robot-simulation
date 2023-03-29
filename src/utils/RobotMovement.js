@@ -198,3 +198,22 @@ export const moveRobotRoom = (map, robot, room) => {
         moveRobot(map, robot, node[0], node[1]);
     }
 }
+
+export const moveRobotPerson = (map, robot) => {
+    const isMoving = store.getState().movement.isMoving;
+    const movableCoordinates = store.getState().movement.movableCoordinates;
+    const personCoordinate = store.getState().movement.personCoordinate;
+    if (!isMoving) {
+        var moveIndex = 0;
+        var minDist = Infinity;
+        for (let i = 0; i < movableCoordinates.length; i++) {
+            const distToPerson = Math.pow(movableCoordinates[i][0] - personCoordinate[0], 2) + Math.pow(movableCoordinates[i][1] - personCoordinate[1], 2)
+            if (distToPerson < minDist) {
+                minDist = distToPerson;
+                moveIndex = i;
+            }
+        }
+        const node = movableCoordinates[moveIndex];
+        moveRobot(map, robot, node[0], node[1]);
+    }
+}

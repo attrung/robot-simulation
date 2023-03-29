@@ -1,7 +1,7 @@
 import { store } from '../app/store';
 import { setColourWhite, setColourYellow, setSpeakText, clearSpeakText, setAction, clearAction, setTorso, setGUI1, clearGUI, setGUI2, setGUI3, setGUI4 } from '../features/robotUISlice';
 import { setGOALgoToCharger, setGOALgoToTable, setGOALgoToSofa, setGOALfridgeUserAlerted, setGOALwatchTV, setGOALwaitHere, setGOALgoToKitchen, setGOALwaitAtKitchen, setGOALwaitAtSofa, setGOALwaitAtTable, setGOALanswerDoorBell } from '../features/goalVariableSlice';
-import { moveRobotRoom } from '../utils/RobotMovement';
+import { moveRobotPerson, moveRobotRoom } from '../utils/RobotMovement';
 import { clearBehaviorRunning, setAtomicRunning, setBehaviorRunning, setBehaviorScheduled, setMedicineDue5PM, setMedicineReminder5PM, setTrayIsEmpty, setTrayIsLowered, setTrayIsRaised, setUninterruptibleRunning } from '../features/robotVariableSlice';
 import { LowerTrayCondition, RaiseTrayCondition } from './BehaviorsConditions';
 
@@ -303,13 +303,11 @@ export const WatchTV = (map, robot) => {
                     if (store.getState().robotVariable.behaviorScheduled !== "WatchTV") {
                         return;
                     }
-                    startAtomic();
                     setGUI("WatchTV", "ReturnHome", "Continue");
                     setTimeout(() => {
                         if (store.getState().robotVariable.behaviorRunning !== "WatchTV") {
                             return;
                         }
-                        endAtomic();
                         store.dispatch(clearGUI());
                         store.dispatch(clearBehaviorRunning());
                     }, 30000 / timeMut());
@@ -939,6 +937,31 @@ export const ResetAllGoals = () => {
         time: store.getState().time.currentTime,
     }))
     store.dispatch(clearBehaviorRunning());
+}
+
+export const TMedicine = (map, robot) => {
+    if (store.getState().robotVariable.behaviorRunning === "TMedicine") {
+        return;
+    }
+    store.dispatch(setBehaviorRunning({
+        value: "TMedicine"
+    }))
+    store.dispatch(setColourYellow());
+    startAtomic();
+    moveRobotPerson(map, robot);
+    const afterMove = () => {
+        if (store.getState().movement.isMoving) {
+            setTimeout(afterMove, 100);
+        } else {
+            store.dispatch(setColourWhite());
+            endAtomic();
+            if (store.getState().robotVariable.behaviorRunning !== "TMedicine") {
+                return;
+            }
+            store.dispatch(clearBehaviorRunning());
+        }
+    }
+    afterMove();
 }
 
 const setGUI = (gui1 = null, gui2 = null, gui3 = null, gui4 = null) => {

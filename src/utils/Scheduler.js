@@ -1,6 +1,6 @@
 import { store } from '../app/store';
-import { AlertFridgeDoorCondition, AnswerDoorbellCondition, CheckBellCondition, ContinueWatchTVCondition, GoToKitchenCondition, GoToSofaCondition, GoToTableCondition, KitchenAwaitCommandCondition, Med5PMCondition, Med5PMRemindCondition, Med5PMResetCondition, RemindFridgeDoorCondition, ReturnHomeCondition, SofaAwaitCommandCondition, TableAwaitCommandCondition, UncheckBellCondition, WaitHereCondition, WatchTVCondition } from './BehaviorsConditions';
-import { AlertFridgeDoor, AnswerDoorbell, CheckBell, ContinueWatchTV, GoToKitchen, GoToSofa, GoToTable, KitchenAwaitCommand, Med5PM, Med5PMRemind, Med5PMReset, RemindFridgeDoor, ReturnHome, SofaAwaitCommand, TableAwaitCommand, UncheckBell, WaitHere, WatchTV } from './Behaviors';
+import { AlertFridgeDoorCondition, AnswerDoorbellCondition, CheckBellCondition, ContinueWatchTVCondition, GoToKitchenCondition, GoToSofaCondition, GoToTableCondition, KitchenAwaitCommandCondition, Med5PMCondition, Med5PMRemindCondition, Med5PMResetCondition, RemindFridgeDoorCondition, ReturnHomeCondition, SofaAwaitCommandCondition, TableAwaitCommandCondition, TMedicineCondition, UncheckBellCondition, WaitHereCondition, WatchTVCondition } from './BehaviorsConditions';
+import { AlertFridgeDoor, AnswerDoorbell, CheckBell, ContinueWatchTV, GoToKitchen, GoToSofa, GoToTable, KitchenAwaitCommand, Med5PM, Med5PMRemind, Med5PMReset, RemindFridgeDoor, ReturnHome, SofaAwaitCommand, TableAwaitCommand, TMedicine, UncheckBell, WaitHere, WatchTV } from './Behaviors';
 import { setBehaviorScheduled } from '../features/robotVariableSlice';
 
 export const runScheduler = (map, robot) => {
@@ -214,6 +214,15 @@ export const runScheduler = (map, robot) => {
         return;
     }
 
+    // Priority 0
+    if (TMedicineCondition()) {
+        store.dispatch(setBehaviorScheduled({
+            value: "TMedicine"
+        }))
+        schedule(() => TMedicine(map, robot), "TMedicine");
+        return;
+    }
+
     store.dispatch(setBehaviorScheduled({
         value: null,
     }))
@@ -225,7 +234,11 @@ const schedule = (to_run, name) => {
             setTimeout(waitAtomic, 100);
         } else {
             if (store.getState().robotVariable.behaviorScheduled === name) {
-                to_run();
+                setTimeout(() => {
+                    if (store.getState().robotVariable.behaviorScheduled === name) {
+                        to_run();
+                    }
+                }, 100)
             }
         }
     }

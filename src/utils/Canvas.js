@@ -217,7 +217,7 @@ const addText = (canvas, text, left, top, angle) => {
 
 const addFridge = (canvas, width, height) => {
     fabric.Image.fromURL(
-        "https://i.imgur.com/G1IPld5.png",
+        "https://github.com/attrung/robot-simulation/blob/main/src/icons/fridge.png",
         fridge => {
             fridge.scale(width / 25000);
             lockObject(fridge);
